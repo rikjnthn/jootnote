@@ -1,8 +1,13 @@
 import React from "react";
 
-const AddFolderButton = () => {
+const AddFolderButton = ({
+  onClick,
+}: {
+  onClick?: React.MouseEventHandler;
+}) => {
   return (
     <button
+      onClick={onClick}
       className="flex w-full items-center gap-5 py-4"
       type="button"
       title="Create new folder"

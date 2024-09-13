@@ -5,6 +5,7 @@ import Pocketbase, { ClientResponseError } from "pocketbase";
 import Folder from "../folder";
 import { FolderType, SetStateType } from "@/interface";
 import { usePocketbase } from "@/context/pocketbase-context";
+import FolderInput from "../folder-input";
 
 const getFolders = async ({
   pb,
@@ -28,7 +29,10 @@ const getFolders = async ({
   }
 };
 
-const FolderList = () => {
+const FolderList = ({
+  isInputFolder,
+  setIsInputFolder,
+}: FolderListPropsType) => {
   const [folders, setFolders] = useState<FolderType[]>([]);
 
   const { pb } = usePocketbase();
@@ -42,8 +46,20 @@ const FolderList = () => {
       {folders.map((folder) => (
         <Folder key={folder.id} name={folder.name} />
       ))}
+
+      <FolderInput
+        isInputFolder={isInputFolder}
+        folders={folders}
+        setIsInputFolder={setIsInputFolder}
+        setFolders={setFolders}
+      />
     </div>
   );
 };
 
 export default FolderList;
+
+interface FolderListPropsType {
+  isInputFolder: boolean;
+  setIsInputFolder: SetStateType<boolean>;
+}
