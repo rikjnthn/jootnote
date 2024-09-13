@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { roboto } from "@/fonts";
 import "./globals.css";
+import PocketbaseProvider from "@/context/pocketbase-context";
 
 export const metadata: Metadata = {
   title: "JootNote",
@@ -15,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <PocketbaseProvider>
+        <body className={roboto.className}>{children}</body>
+      </PocketbaseProvider>
     </html>
   );
 }
