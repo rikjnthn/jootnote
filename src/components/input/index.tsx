@@ -1,7 +1,15 @@
-import React, { useId } from "react";
+"use client";
+import React, { forwardRef, useId } from "react";
+import clsx from "clsx";
 
-const Input = ({ label, ...inputProps }: InputPropsType) => {
+const Input = (
+  { label, error, ...inputProps }: InputPropsType,
+  ref: React.ForwardedRef<HTMLInputElement>,
+) => {
   const id = useId();
+  const errorId = useId();
+
+  const isError = typeof error !== "undefined" && error.length > 0;
 
   return (
     <div className="flex flex-col gap-2.5">
@@ -9,16 +17,27 @@ const Input = ({ label, ...inputProps }: InputPropsType) => {
         {label}
       </label>
       <input
-        className="rounded-md border border-black p-2.5 ring-black focus:outline-none focus-visible:ring-1 max-md:text-sm"
+        className="input input-bordered input-ghost input-primary aria-[invalid=true]:input-error max-md:text-sm"
         id={id}
+        ref={ref}
+        aria-invalid={isError}
+        aria-describedby={errorId}
         {...inputProps}
       />
+
+      <div
+        id={errorId}
+        className={clsx("text-sm text-error", { hidden: !isError })}
+      >
+        {error}
+      </div>
     </div>
   );
 };
 
-export default Input;
+export default forwardRef(Input);
 
 interface InputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  error?: string;
 }
