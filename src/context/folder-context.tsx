@@ -1,9 +1,9 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import Pocketbase, { ClientResponseError } from "pocketbase";
+import Pocketbase, { ClientResponseError, RecordModel } from "pocketbase";
 
 import { usePocketbase } from "./pocketbase-context";
-import { FolderType, SetStateType } from "@/interface";
+import { FileType, FolderType, SetStateType } from "@/interface";
 
 const FolderContext = createContext<FolderContextType | undefined>(undefined);
 
@@ -26,11 +26,20 @@ const getFolders = async ({
   try {
     const userId = pb.authStore.model?.id;
 
-    const records = await pb.collection("folders").getFullList<FolderType>({
-      filter: pb.filter("user.id = {:userId}", { userId }),
-    });
+    const records = await pb
+      .collection("folders")
+      .getFullList<FolderType & RecordModel>({
+        filter: pb.filter("user.id = {:userId}", { userId }),
+        expand: "files_via_folder",
+      });
 
-    setFolders(records);
+    const folders = records.map(({ id, name, expand }) => ({
+      id,
+      name,
+      files: expand?.files_via_folder as FileType[],
+    }));
+
+    setFolders(folders);
   } catch (e) {
     if (e instanceof ClientResponseError) {
       console.error("Error: " + e.message);
