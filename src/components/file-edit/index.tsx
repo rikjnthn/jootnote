@@ -6,12 +6,13 @@ import { useFolder } from "@/context/folder-context";
 import { usePocketbase } from "@/context/pocketbase-context";
 import { ClientResponseError } from "pocketbase";
 
-const EditFolder = ({
+const EditFile = ({
+  fileId,
   folderId,
-  folderName,
+  fileName,
   setIsEdit,
-}: EditFolderPropsType) => {
-  const [newName, setNewName] = useState<string>(folderName);
+}: EditFilePropsType) => {
+  const [newName, setNewName] = useState<string>(fileName);
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -21,7 +22,7 @@ const EditFolder = ({
   const updateFolder = async (data: FolderDataType) => {
     if (error.length > 0) return;
 
-    const prevFoldername = folderName;
+    const prevFilename = fileName;
 
     setIsLoading(true);
     setFolders((prev) => {
@@ -30,14 +31,21 @@ const EditFolder = ({
 
         return {
           ...folder,
-          name: newName,
+          files: folder.files.map((file) => {
+            if (file.id !== fileId) return file;
+
+            return {
+              ...file,
+              name: newName,
+            };
+          }),
         };
       });
 
       return newList;
     });
     try {
-      await pb.collection("folders").update(folderId, data);
+      await pb.collection("files").update(fileId, data);
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.error("Error " + e.message);
@@ -48,7 +56,12 @@ const EditFolder = ({
 
             return {
               ...folder,
-              name: prevFoldername,
+              files: folder.files.map((file) => {
+                return {
+                  ...file,
+                  name: prevFilename,
+                };
+              }),
             };
           });
 
@@ -65,7 +78,7 @@ const EditFolder = ({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (newName === folderName) {
+    if (newName === fileName) {
       setIsEdit(false);
       return;
     }
@@ -79,7 +92,7 @@ const EditFolder = ({
   };
 
   const handleBlur = () => {
-    if (newName === folderName) {
+    if (newName === fileName) {
       setIsEdit(false);
       return;
     }
@@ -98,22 +111,27 @@ const EditFolder = ({
     setError("");
     setNewName(inputName);
 
+    if (inputName.length === 0) {
+      setError("Please input file name");
+      return;
+    }
+
     //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {
-      setError("Folder name is not valid");
+      setError("File name is not valid");
       return;
     }
 
-    const foundFolder = folders.find((folder) => folder.name === inputName);
-    if (foundFolder && foundFolder.id !== folderId) {
-      setError("Folder name already exist");
-      return;
-    }
+    folders.forEach((folder) => {
+      if (folder.id !== folderId) return;
 
-    if (inputName.length === 0) {
-      setError("Please input folder name");
-      return;
-    }
+      const foundFile = folder.files.find((file) => file.name === inputName);
+
+      if (foundFile && foundFile.id !== fileId) {
+        setError("File name already exist");
+        return;
+      }
+    });
   };
 
   return (
@@ -143,10 +161,11 @@ const EditFolder = ({
   );
 };
 
-export default EditFolder;
+export default EditFile;
 
-interface EditFolderPropsType {
+interface EditFilePropsType {
+  fileId: string;
   folderId: string;
-  folderName: string;
+  fileName: string;
   setIsEdit: SetStateType<boolean>;
 }

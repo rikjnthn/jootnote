@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Pocketbase, { ClientResponseError, RecordModel } from "pocketbase";
 
 import { usePocketbase } from "./pocketbase-context";
-import { FileType, FolderType, SetStateType } from "@/interface";
+import { FolderType, SetStateType } from "@/interface";
 
 const FolderContext = createContext<FolderContextType | undefined>(undefined);
 
@@ -33,10 +33,10 @@ const getFolders = async ({
         expand: "files_via_folder",
       });
 
-    const folders = records.map(({ id, name, expand }) => ({
+    const folders = records.map<FolderType>(({ id, name, expand }) => ({
       id,
       name,
-      files: expand?.files_via_folder as FileType[],
+      files: expand?.files_via_folder ?? [],
     }));
 
     setFolders(folders);
