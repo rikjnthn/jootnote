@@ -14,9 +14,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const API_URL = process.env.API_URL;
+
   return (
     <html lang="en">
-      <PocketbaseProvider>
+      <PocketbaseProvider API_URL={API_URL}>
         <body className={roboto.className}>{children}</body>
       </PocketbaseProvider>
     </html>

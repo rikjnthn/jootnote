@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 
 import { SetStateType } from "@/interface";
@@ -8,16 +8,15 @@ import DeleteIcon from "../delete-icon";
 import FolderList from "../folder-list";
 import SettingButton from "../setting-button";
 import AddFolderButton from "../add-folder-button";
+import { FolderProvider } from "@/context/folder-context";
 
 const Navigation = ({
   isOpenNav,
   setIsOpenNav,
   setIsOpenSetting,
-}: {
-  isOpenNav: boolean;
-  setIsOpenNav: SetStateType<boolean>;
-  setIsOpenSetting: SetStateType<boolean>;
-}) => {
+}: NavigationPropsType) => {
+  const [isInputFolder, setIsInputFolder] = useState<boolean>(false);
+
   const closeNav = () => {
     setIsOpenNav(false);
   };
@@ -42,10 +41,15 @@ const Navigation = ({
           </div>
         </div>
 
-        <FolderList />
+        <FolderProvider>
+          <FolderList
+            isInputFolder={isInputFolder}
+            setIsInputFolder={setIsInputFolder}
+          />
+        </FolderProvider>
 
-        <div className="mt-auto">
-          <AddFolderButton />
+        <div>
+          <AddFolderButton onClick={() => setIsInputFolder(true)} />
           <SettingButton onClick={openSetting} />
         </div>
       </nav>
@@ -62,3 +66,9 @@ const Navigation = ({
 };
 
 export default Navigation;
+
+interface NavigationPropsType {
+  isOpenNav: boolean;
+  setIsOpenNav: SetStateType<boolean>;
+  setIsOpenSetting: SetStateType<boolean>;
+}

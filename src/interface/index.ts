@@ -7,3 +7,17 @@ export interface ResetPasswordDataType {
   password: string;
   confirm_password: string;
 }
+
+export interface FolderType {
+  id: string;
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  updated: string;
+  name: string;
+  users: string;
+}
+
+export interface FolderDataType {
+  name: string;
+}

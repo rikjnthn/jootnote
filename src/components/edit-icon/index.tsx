@@ -1,8 +1,8 @@
 import React from "react";
 
-const EditIcon = () => {
+const EditIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
   return (
-    <button type="button" title="More option">
+    <button onClick={onClick} type="button" title="Edit">
       <svg
         width="30"
         height="30"

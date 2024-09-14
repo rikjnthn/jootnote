@@ -1,12 +1,33 @@
+"use client";
 import React from "react";
-import Folder from "../folder";
 
-const FolderList = () => {
+import { useFolder } from "@/context/folder-context";
+import Folder from "../folder";
+import { SetStateType } from "@/interface";
+import FolderInput from "../folder-input";
+
+const FolderList = ({
+  isInputFolder,
+  setIsInputFolder,
+}: FolderListPropsType) => {
+  const { folders } = useFolder();
   return (
-    <div className="hide-scrollbar mt-2.5 h-full overflow-y-scroll px-1 md:mt-14">
-      <Folder name="Folder" />
+    <div className="hide-scrollbar h-full overflow-y-scroll px-1 pt-2.5 md:mt-14">
+      {folders.map((folder) => (
+        <Folder key={folder.id} folderId={folder.id} name={folder.name} />
+      ))}
+
+      <FolderInput
+        isInputFolder={isInputFolder}
+        setIsInputFolder={setIsInputFolder}
+      />
     </div>
   );
 };
 
 export default FolderList;
+
+interface FolderListPropsType {
+  isInputFolder: boolean;
+  setIsInputFolder: SetStateType<boolean>;
+}
