@@ -8,6 +8,7 @@ import DeleteIcon from "../delete-icon";
 import FolderList from "../folder-list";
 import SettingButton from "../setting-button";
 import AddFolderButton from "../add-folder-button";
+import { FolderProvider } from "@/context/folder-context";
 
 const Navigation = ({
   isOpenNav,
@@ -40,10 +41,12 @@ const Navigation = ({
           </div>
         </div>
 
-        <FolderList
-          isInputFolder={isInputFolder}
-          setIsInputFolder={setIsInputFolder}
-        />
+        <FolderProvider>
+          <FolderList
+            isInputFolder={isInputFolder}
+            setIsInputFolder={setIsInputFolder}
+          />
+        </FolderProvider>
 
         <div>
           <AddFolderButton onClick={() => setIsInputFolder(true)} />

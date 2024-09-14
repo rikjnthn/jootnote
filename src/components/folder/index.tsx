@@ -8,14 +8,16 @@ import DeleteIcon from "../delete-icon";
 import PlusIcon from "../plus-icon";
 import FileList from "../file-list";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { FolderType, SetStateType } from "@/interface";
+import EditFolder from "../edit-folder";
+import { useFolder } from "@/context/folder-context";
 
-const Folder = ({ name, folderId, setFolder }: FolderPropsType) => {
+const Folder = ({ name, folderId }: FolderPropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
+  const { setFolders } = useFolder();
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -24,11 +26,17 @@ const Folder = ({ name, folderId, setFolder }: FolderPropsType) => {
     try {
       await pb.collection("folders").delete(folderId);
 
-      setFolder((prev) => prev.filter((folder) => folder.id !== folderId));
+      setFolders((prev) => prev.filter((folder) => folder.id !== folderId));
     } catch (e) {
     } finally {
       setIsLoadingDelete(false);
     }
+  };
+
+  const setEditing = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    setIsEdit(true);
   };
 
   return (
@@ -39,14 +47,25 @@ const Folder = ({ name, folderId, setFolder }: FolderPropsType) => {
       >
         <div className="flex items-center">
           <ArrowIcon isOpen={isOpen} />
-          <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
+
+          {isEdit ? (
+            <EditFolder
+              folderId={folderId}
+              folderName={name}
+              setIsEdit={setIsEdit}
+            />
+          ) : (
+            <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
+          )}
         </div>
 
-        <div className="folder-util flex items-center">
-          <EditIcon />
-          <DeleteIcon onClick={handleDelete} title="Delete folder" />
-          <PlusIcon title="Add file" />
-        </div>
+        {!isEdit && (
+          <div className="folder-util flex items-center">
+            <EditIcon onClick={setEditing} />
+            <DeleteIcon onClick={handleDelete} title="Delete folder" />
+            <PlusIcon title="Add file" />
+          </div>
+        )}
       </div>
 
       <div className={clsx(!isOpen && "hidden")}>
@@ -61,5 +80,4 @@ export default Folder;
 interface FolderPropsType {
   name: string;
   folderId: string;
-  setFolder: SetStateType<FolderType[]>;
 }

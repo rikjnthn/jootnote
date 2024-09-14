@@ -6,19 +6,19 @@ import clsx from "clsx";
 import { usePocketbase } from "@/context/pocketbase-context";
 import Input from "../input";
 import ArrowIcon from "../arrow-icon";
-import { FolderType, SetStateType } from "@/interface";
+import { FolderDataType, FolderType, SetStateType } from "@/interface";
+import { useFolder } from "@/context/folder-context";
 
 const FolderInput = ({
   isInputFolder,
-  folders,
   setIsInputFolder,
-  setFolders,
 }: FolderInputPropsType) => {
   const [name, setName] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
+  const { folders, setFolders } = useFolder();
   const userId = pb.authStore.model?.id;
 
   const createFolder = async (data: FolderDataType) => {
@@ -64,7 +64,7 @@ const FolderInput = ({
     setName(inputName);
     setError("");
 
-    //check if input name contain "<"" or "">"
+    //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {
       setError("Folder name is not valid");
       return;
@@ -116,13 +116,7 @@ const FolderInput = ({
 
 export default FolderInput;
 
-interface FolderDataType {
-  name: string;
-}
-
 interface FolderInputPropsType {
   isInputFolder: boolean;
-  folders: FolderType[];
   setIsInputFolder: SetStateType<boolean>;
-  setFolders: SetStateType<FolderType[]>;
 }

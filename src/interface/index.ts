@@ -17,3 +17,7 @@ export interface FolderType {
   name: string;
   users: string;
 }
+
+export interface FolderDataType {
+  name: string;
+}
