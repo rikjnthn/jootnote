@@ -1,8 +1,14 @@
 import React from "react";
 
-const PlusIcon = ({ title }: { title?: string }) => {
+const PlusIcon = ({
+  title,
+  onClick,
+}: {
+  title?: string;
+  onClick?: React.MouseEventHandler;
+}) => {
   return (
-    <button type="button" title={title}>
+    <button onClick={onClick} type="button" title={title}>
       <svg
         width="30"
         height="30"

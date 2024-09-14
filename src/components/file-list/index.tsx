@@ -2,9 +2,15 @@
 import React from "react";
 
 import File from "../file";
-import { FileType } from "@/interface";
+import { FileType, SetStateType } from "@/interface";
+import FileInput from "../file-input";
 
-const FileList = ({ files, folderId }: FileListPropsType) => {
+const FileList = ({
+  files,
+  folderId,
+  isInputFile,
+  setIsInputFile,
+}: FileListPropsType) => {
   return (
     <div>
       {files.map((file) => {
@@ -17,6 +23,12 @@ const FileList = ({ files, folderId }: FileListPropsType) => {
           />
         );
       })}
+
+      <FileInput
+        folderId={folderId}
+        isInputFile={isInputFile}
+        setIsInputFile={setIsInputFile}
+      />
     </div>
   );
 };
@@ -26,4 +38,6 @@ export default FileList;
 interface FileListPropsType {
   files: FileType[];
   folderId: string;
+  isInputFile: boolean;
+  setIsInputFile: SetStateType<boolean>;
 }

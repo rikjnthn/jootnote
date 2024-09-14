@@ -16,6 +16,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
+  const [isInputFile, setIsInputFile] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
   const { setFolders } = useFolder();
@@ -40,6 +41,12 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     setIsEdit(true);
   };
 
+  const setInputFile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    setIsInputFile(true);
+  };
+
   return (
     <div className={clsx("cursor-default", { hidden: isLoadingDelete })}>
       <div
@@ -60,13 +67,18 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
           <div className="folder-util flex items-center">
             <EditIcon onClick={setEditing} />
             <DeleteIcon onClick={handleDelete} title="Delete folder" />
-            <PlusIcon title="Add file" />
+            <PlusIcon onClick={setInputFile} title="Add file" />
           </div>
         )}
       </div>
 
       <div className={clsx(!isOpen && "hidden")}>
-        <FileList files={files} folderId={id} />
+        <FileList
+          files={files}
+          folderId={id}
+          isInputFile={isInputFile}
+          setIsInputFile={setIsInputFile}
+        />
       </div>
     </div>
   );
