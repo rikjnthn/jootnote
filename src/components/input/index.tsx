@@ -13,9 +13,11 @@ const Input = (
 
   return (
     <div className="flex flex-col gap-2.5">
-      <label className="font-medium md:text-xl" htmlFor={id}>
-        {label}
-      </label>
+      {label.length > 0 && (
+        <label className="font-medium md:text-xl" htmlFor={id}>
+          {label}
+        </label>
+      )}
       <input
         className="input input-bordered input-ghost input-primary aria-[invalid=true]:input-error max-md:text-sm"
         id={id}
