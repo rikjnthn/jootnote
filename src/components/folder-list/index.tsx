@@ -44,7 +44,7 @@ const FolderList = ({
   return (
     <div className="hide-scrollbar h-full overflow-y-scroll px-1 pt-2.5 md:mt-14">
       {folders.map((folder) => (
-        <Folder key={folder.id} name={folder.name} />
+        <Folder key={folder.id} folderId={folder.id} name={folder.name} setFolder={setFolders} />
       ))}
 
       <FolderInput
