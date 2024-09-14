@@ -10,14 +10,15 @@ export interface ResetPasswordDataType {
 
 export interface FolderType {
   id: string;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  updated: string;
   name: string;
-  users: string;
+  files: FileType[];
 }
 
 export interface FolderDataType {
+  name: string;
+}
+
+export interface FileType {
+  id: string;
   name: string;
 }

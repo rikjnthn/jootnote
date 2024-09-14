@@ -10,11 +10,13 @@ import FileList from "../file-list";
 import { usePocketbase } from "@/context/pocketbase-context";
 import EditFolder from "../edit-folder";
 import { useFolder } from "@/context/folder-context";
+import { FileType } from "@/interface";
 
-const Folder = ({ name, folderId }: FolderPropsType) => {
+const Folder = ({ name, id, files }: FolderPropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
+  const [isInputFile, setIsInputFile] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
   const { setFolders } = useFolder();
@@ -24,9 +26,9 @@ const Folder = ({ name, folderId }: FolderPropsType) => {
 
     setIsLoadingDelete(true);
     try {
-      await pb.collection("folders").delete(folderId);
+      await pb.collection("folders").delete(id);
 
-      setFolders((prev) => prev.filter((folder) => folder.id !== folderId));
+      setFolders((prev) => prev.filter((folder) => folder.id !== id));
     } catch (e) {
     } finally {
       setIsLoadingDelete(false);
@@ -39,6 +41,12 @@ const Folder = ({ name, folderId }: FolderPropsType) => {
     setIsEdit(true);
   };
 
+  const setInputFile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    setIsInputFile(true);
+  };
+
   return (
     <div className={clsx("cursor-default", { hidden: isLoadingDelete })}>
       <div
@@ -49,11 +57,7 @@ const Folder = ({ name, folderId }: FolderPropsType) => {
           <ArrowIcon isOpen={isOpen} />
 
           {isEdit ? (
-            <EditFolder
-              folderId={folderId}
-              folderName={name}
-              setIsEdit={setIsEdit}
-            />
+            <EditFolder folderId={id} folderName={name} setIsEdit={setIsEdit} />
           ) : (
             <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
           )}
@@ -63,13 +67,18 @@ const Folder = ({ name, folderId }: FolderPropsType) => {
           <div className="folder-util flex items-center">
             <EditIcon onClick={setEditing} />
             <DeleteIcon onClick={handleDelete} title="Delete folder" />
-            <PlusIcon title="Add file" />
+            <PlusIcon onClick={setInputFile} title="Add file" />
           </div>
         )}
       </div>
 
       <div className={clsx(!isOpen && "hidden")}>
-        <FileList />
+        <FileList
+          files={files}
+          folderId={id}
+          isInputFile={isInputFile}
+          setIsInputFile={setIsInputFile}
+        />
       </div>
     </div>
   );
@@ -79,5 +88,6 @@ export default Folder;
 
 interface FolderPropsType {
   name: string;
-  folderId: string;
+  id: string;
+  files: FileType[];
 }
