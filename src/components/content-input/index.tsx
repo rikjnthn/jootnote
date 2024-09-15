@@ -1,11 +1,14 @@
 "use client";
+import { usePocketbase } from "@/context/pocketbase-context";
 import useMatchMedia from "@/hooks/useMatchMedia";
 import React, { useEffect, useRef } from "react";
 
-const ContentInput = () => {
+const ContentInput = ({ contentId, content }: ContentInputPropsType) => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const isMatchMedia = useMatchMedia("(min-width: 768px)");
+
+  const { pb } = usePocketbase();
 
   const updateContentHeight = (e: Event) => {
     const element = contentRef.current;
@@ -33,12 +36,22 @@ const ContentInput = () => {
     contentRef.current.dispatchEvent(changeEvent);
   }, [isMatchMedia]);
 
+  const save = async () => {
+    try {
+      console.log(contentId);
+      await pb.collection("contents").update(contentId, {
+        content: contentRef.current?.value,
+      });
+    } catch (e) {}
+  };
+
   return (
     <div onClick={() => contentRef.current?.focus()} className="h-full">
       <textarea
         ref={contentRef}
+        onBlur={save}
         className="context-textarea"
-        defaultValue={"lorem ipsum"}
+        defaultValue={content}
         placeholder="Text"
         autoFocus
       />
@@ -47,3 +60,8 @@ const ContentInput = () => {
 };
 
 export default ContentInput;
+
+interface ContentInputPropsType {
+  contentId: string;
+  content?: string;
+}
