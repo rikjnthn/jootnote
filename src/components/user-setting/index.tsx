@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
 
 import Input from "../input";
+import LogoutButton from "../logout-button";
+import DeleteAccountButton from "../delete-account-button";
 
 const UserSetting = () => {
   return (
@@ -29,12 +32,8 @@ const UserSetting = () => {
       <div className="pt-10">
         <span className="text-xl font-semibold md:text-2xl">Account</span>
         <div className="flex justify-between pt-4">
-          <button className="btn btn-primary rounded-md p-6 py-2.5 font-normal text-white max-md:text-sm">
-            Log out
-          </button>
-          <button className="btn btn-error rounded-md p-6 py-2.5 font-normal text-white max-md:text-sm">
-            Delete Account
-          </button>
+          <LogoutButton />
+          <DeleteAccountButton />
         </div>
       </div>
     </div>

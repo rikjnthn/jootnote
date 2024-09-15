@@ -9,11 +9,11 @@ import clsx from "clsx";
 import { usePocketbase } from "@/context/pocketbase-context";
 import Input from "@/components/input";
 import SubmitButton from "@/components/submit-button";
-import VerifyEmail from "@/components/verify-email";
+import VerifyEmailInformation from "../verify-email-information";
 
 const SignUpCard = () => {
   const [isSignupError, setIsSignupError] = useState<boolean>(false);
-  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [isVerifying, setIsVerifying] = useState<boolean>(true);
 
   const {
     register,
@@ -35,6 +35,7 @@ const SignUpCard = () => {
         passwordConfirm: data.confirm_password,
       });
 
+      await pb.collection("users").requestVerification(data.email);
       setIsVerifying(true);
     } catch (e) {
       if (e instanceof ClientResponseError) {
@@ -183,7 +184,10 @@ const SignUpCard = () => {
       </div>
 
       <div className={clsx({ hidden: !isVerifying })}>
-        <VerifyEmail setIsVerifying={setIsVerifying} />
+        <VerifyEmailInformation
+          email={getValues("email")}
+          setIsVerifying={setIsVerifying}
+        />
       </div>
     </div>
   );

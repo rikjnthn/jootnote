@@ -1,89 +1,65 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import clsx from "clsx";
-import { useForm } from "react-hook-form";
-import { ClientResponseError } from "pocketbase";
+import Link from "next/link";
+import Pocketbase, { ClientResponseError } from "pocketbase";
 
-import { usePocketbase } from "@/context/pocketbase-context";
-import Input from "../input";
-import SubmitButton from "../submit-button";
-import { SetStateType } from "@/interface";
-import BackIcon from "../back-icon";
+const verify = async (token: string) => {
+  const pb = new Pocketbase(process.env.API_URL);
 
-const VerifyEmail = ({ setIsVerifying }: VerifyEmailPropsType) => {
-  const [isVerifyError, setIsVerifyError] = useState<boolean>(false);
+  try {
+    const isVerified = await pb.collection("users").confirmVerification(token);
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-    reset,
-  } = useForm<TokenDataType>();
-
-  const router = useRouter();
-  const { pb } = usePocketbase();
-
-  const verify = async (data: TokenDataType) => {
-    setIsVerifyError(false);
-    try {
-      await pb.collection("users").confirmVerification(data.token);
-
-      router.push("/");
-    } catch (e) {
-      if (e instanceof ClientResponseError) {
-        console.error("Error " + e.message);
-
-        const errorRequest = e.response.data;
-        setError("token", { message: errorRequest.token?.message });
-
-        setIsVerifyError(true);
-      }
+    return isVerified;
+  } catch (e) {
+    if (e instanceof ClientResponseError) {
+      console.error("Error " + e.message);
     }
-  };
 
-  const handleBack = () => {
-    setIsVerifying(false);
-    reset();
-  };
+    return false;
+  }
+};
+
+const VerifyEmail = async ({ token }: VerifyEmailPropsType) => {
+  const isVerified = await verify(token);
+
+  if (!isVerified) {
+    return (
+      <div>
+        <div className="absolute grid h-full w-full place-items-center">
+          <div className="flex flex-col items-center">
+            <div className="px-10 text-center">
+              <div className="mx-auto text-3xl font-bold md:text-5xl">
+                Token Is Invalid
+              </div>
+
+              <div className="mt-4 max-md:text-sm">
+                Your token is invalid or may be expired.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="absolute grid h-full w-full place-items-center">
-      <div
-        className={clsx(
-          "flex w-full max-w-md flex-col items-center gap-16 rounded-md border p-10",
-          isVerifyError ? "border-error" : "border-gray-light",
-        )}
-      >
-        <div className="flex w-full items-center">
-          <div className="absolute flex">
-            <BackIcon onClick={handleBack} />
-          </div>
+      <div className="flex flex-col items-center">
+        <div className="px-10 text-center">
           <div className="mx-auto text-3xl font-bold md:text-5xl">
-            Verify Email
+            Account Verified
+          </div>
+
+          <div className="mt-4 max-md:text-sm">
+            Your account has been verified. Thank you for using this app.
           </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit(verify)}
-          className="flex w-full flex-col gap-12"
+        <Link
+          className="btn btn-primary mt-20 w-fit font-normal"
+          href="/"
+          prefetch={false}
         >
-          <Input
-            label=""
-            type="text"
-            placeholder="token"
-            error={errors.token?.message?.toString()}
-            {...register("token", {
-              required: {
-                value: true,
-                message: "Please insert your token",
-              },
-            })}
-          />
-
-          <SubmitButton name="Verify" title="Verify" />
-        </form>
+          Go to the app
+        </Link>
       </div>
     </div>
   );
@@ -91,10 +67,6 @@ const VerifyEmail = ({ setIsVerifying }: VerifyEmailPropsType) => {
 
 export default VerifyEmail;
 
-interface TokenDataType {
-  token: string;
-}
-
 interface VerifyEmailPropsType {
-  setIsVerifying: SetStateType<boolean>;
+  token: string;
 }
