@@ -27,7 +27,6 @@ const SignUpCard = () => {
 
   const signUp = async (data: SignUpDataType) => {
     setIsSignupError(false);
-    setIsVerifying(true);
     try {
       await pb.collection("users").create({
         username: data.username,
@@ -37,6 +36,7 @@ const SignUpCard = () => {
       });
 
       await pb.collection("users").requestVerification(data.email);
+      setIsVerifying(true);
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.error("Error: " + e.message);
