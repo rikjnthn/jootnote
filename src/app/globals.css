@@ -54,6 +54,7 @@ body {
   line-height: 2rem;
   min-height: 2rem;
   height: 2rem;
+  text-transform: capitalize;
 }
 
 .context-textarea {

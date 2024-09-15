@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { usePocketbase } from "@/context/pocketbase-context";
 import { useFolder } from "@/context/folder-context";
 import Input from "../input";
-import ArrowIcon from "../arrow-icon";
 import {
   FileType,
   FolderDataType,
@@ -35,6 +34,10 @@ const FolderInput = ({
       const record = await pb.collection("files").create<FileType>({
         name: data.name,
         folder: folderId,
+      });
+
+      await pb.collection("contents").create({
+        file: record.id,
       });
 
       setFolders((prev) => {
@@ -110,7 +113,6 @@ const FolderInput = ({
     <>
       <div className={clsx(isLoading ? "py-2.5 pl-8 opacity-50" : "hidden")}>
         <div className="flex items-center">
-          <ArrowIcon isOpen={false} />
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import clsx from "clsx";
 
@@ -12,6 +13,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
 
+  const router = useRouter();
   const { pb } = usePocketbase();
   const { setFolders } = useFolder();
 
@@ -46,9 +48,14 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     setIsEdit(true);
   };
 
+  const openFile = () => {
+    router.push(`/${id}`);
+  };
+
   return (
     <div
-      className={clsx("file flex justify-between py-2 pl-8", {
+      onClick={openFile}
+      className={clsx("file flex items-center justify-between py-2 pl-8", {
         hidden: isLoadingDelete,
       })}
     >
