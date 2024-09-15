@@ -13,7 +13,7 @@ import VerifyEmailInformation from "../verify-email-information";
 
 const SignUpCard = () => {
   const [isSignupError, setIsSignupError] = useState<boolean>(false);
-  const [isVerifying, setIsVerifying] = useState<boolean>(true);
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
   const {
     register,
