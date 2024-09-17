@@ -8,17 +8,14 @@ import ChangeEmailSetting from "../change-email-setting";
 
 const UserSetting = () => {
   return (
-    <div className="flex flex-col gap-10 p-5 px-[30px]">
+    <div className="flex h-full flex-col gap-10 p-5 px-[30px]">
       <UserDataSetting />
 
       <ChangeEmailSetting />
 
-      <div>
-        <span className="text-xl font-semibold md:text-2xl">Account</span>
-        <div className="flex justify-between pt-4">
-          <LogoutButton />
-          <DeleteAccountButton />
-        </div>
+      <div className="mt-auto flex flex-col justify-between gap-4">
+        <LogoutButton />
+        <DeleteAccountButton />
       </div>
     </div>
   );
