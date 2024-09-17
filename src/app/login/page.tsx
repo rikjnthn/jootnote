@@ -7,15 +7,16 @@ import LoginCard from "@/components/login-card";
 export default function Page() {
   const pb = new Pocketbase(process.env.API_URL);
 
-  try {
-    const cookie = cookies().toString();
-    pb.authStore.loadFromCookie(cookie);
+  const cookie = cookies().toString();
 
-    if (pb.authStore.isValid) {
-      redirect("/");
-    }
+  try {
+    pb.authStore.loadFromCookie(cookie);
   } catch (e) {
     console.error(e);
+  }
+
+  if (pb.authStore.isValid) {
+    redirect("/");
   }
 
   return <LoginCard />;
