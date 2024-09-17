@@ -52,7 +52,7 @@ const LoginCard = () => {
           isLoginError ? "border-error" : "border-gray-light",
         )}
       >
-        <div className="text-3xl font-bold md:text-5xl">Login</div>
+        <div className="text-3xl font-bold md:text-4xl">Login</div>
         <form
           onSubmit={handleSubmit(login)}
           className="flex w-full flex-col gap-12"

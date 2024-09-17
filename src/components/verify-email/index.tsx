@@ -26,7 +26,7 @@ const VerifyEmail = async ({ token }: VerifyEmailPropsType) => {
         <div className="absolute grid h-full w-full place-items-center">
           <div className="flex flex-col items-center">
             <div className="px-10 text-center">
-              <div className="mx-auto text-3xl font-bold md:text-5xl">
+              <div className="mx-auto text-3xl font-bold md:text-4xl">
                 Token Is Invalid
               </div>
 
@@ -44,7 +44,7 @@ const VerifyEmail = async ({ token }: VerifyEmailPropsType) => {
     <div className="absolute grid h-full w-full place-items-center">
       <div className="flex flex-col items-center">
         <div className="px-10 text-center">
-          <div className="mx-auto text-3xl font-bold md:text-5xl">
+          <div className="mx-auto text-3xl font-bold md:text-4xl">
             Account Verified
           </div>
 

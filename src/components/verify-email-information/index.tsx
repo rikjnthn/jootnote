@@ -17,7 +17,7 @@ const VerifyEmailInformation = ({
   return (
     <div className="absolute grid h-full w-full place-items-center p-5">
       <div className="flex max-w-lg flex-col items-center rounded-md border border-gray-light p-10 text-center">
-        <div className="w-fit text-3xl font-bold md:text-5xl">
+        <div className="w-fit text-3xl font-bold md:text-4xl">
           Verify Your Account
         </div>
 
