@@ -20,7 +20,7 @@ const LogoutButton = () => {
       onClick={logout}
       className="btn btn-primary rounded-md p-6 py-2.5 font-normal text-white max-md:text-sm"
     >
-      Log out
+      Logout
     </button>
   );
 };

@@ -16,7 +16,7 @@ const Setting = ({
   return (
     <div
       className={clsx(
-        "setting absolute top-0 h-full w-full bg-white md:max-w-md",
+        "setting absolute top-0 flex h-full w-full flex-col bg-white md:max-w-md",
         isOpenSetting ? "right-0" : "-right-full",
       )}
     >
