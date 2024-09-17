@@ -38,7 +38,6 @@ const ContentInput = ({ contentId, content }: ContentInputPropsType) => {
 
   const save = async () => {
     try {
-      console.log(contentId);
       await pb.collection("contents").update(contentId, {
         content: contentRef.current?.value,
       });

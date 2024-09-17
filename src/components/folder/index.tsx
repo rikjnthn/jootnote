@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 import ArrowIcon from "../arrow-icon";
@@ -13,8 +13,12 @@ import EditFolder from "../edit-folder";
 import { useFolder } from "@/context/folder-context";
 import { FileType } from "@/interface";
 
+const getIsFolderOpen = (folderId: string): boolean => {
+  return JSON.parse(localStorage.getItem(folderId) ?? "false");
+};
+
 const Folder = ({ name, id, files }: FolderPropsType) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(() => getIsFolderOpen(id));
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
   const [isInputFile, setIsInputFile] = useState<boolean>(false);
@@ -39,6 +43,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
         router.push("/");
       }
 
+      localStorage.removeItem(id);
       setFolders((prev) => prev.filter((folder) => folder.id !== id));
     } catch (e) {
     } finally {
@@ -58,6 +63,10 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     setIsInputFile(true);
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    localStorage.setItem(id, JSON.stringify(isOpen));
+  }, [isOpen, id]);
 
   return (
     <div className={clsx("cursor-default", { hidden: isLoadingDelete })}>
