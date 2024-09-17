@@ -47,7 +47,7 @@ export default function Page() {
             isRequestError ? "border-error" : "border-gray-light",
           )}
         >
-          <div className="text-center text-3xl font-bold md:text-5xl">
+          <div className="text-center text-3xl font-bold md:text-4xl">
             Request Reset Password
           </div>
 
@@ -86,7 +86,7 @@ export default function Page() {
           )}
         >
           <div className="text-center">
-            <div className="text-center text-3xl font-bold md:text-5xl">
+            <div className="text-center text-3xl font-bold md:text-4xl">
               Reset Password Requested
             </div>
 

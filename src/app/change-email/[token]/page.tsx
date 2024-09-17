@@ -43,7 +43,7 @@ export default function Page({ params }: { params: { token: string } }) {
               isError ? "border-error" : "border-gray-light",
             )}
           >
-            <div className="text-center text-3xl font-bold md:text-5xl">
+            <div className="text-center text-3xl font-bold md:text-4xl">
               Confirm Email Change
             </div>
             <form
@@ -91,7 +91,7 @@ export default function Page({ params }: { params: { token: string } }) {
             )}
           >
             <div className="text-center">
-              <div className="text-center text-3xl font-bold md:text-5xl">
+              <div className="text-center text-3xl font-bold md:text-4xl">
                 Email Has Been Changed
               </div>
 

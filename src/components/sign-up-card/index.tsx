@@ -65,7 +65,7 @@ const SignUpCard = () => {
               isSignupError ? "border-error" : "border-gray-light",
             )}
           >
-            <div className="text-3xl font-bold md:text-5xl">Sign Up</div>
+            <div className="text-3xl font-bold md:text-4xl">Sign Up</div>
             <form
               onSubmit={handleSubmit(signUp)}
               className="flex w-full flex-col gap-12"
