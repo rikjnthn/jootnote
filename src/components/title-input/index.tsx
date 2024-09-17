@@ -39,7 +39,6 @@ const TitleInput = ({ contentId, title }: TitleInputPropsType) => {
 
   const save = async () => {
     try {
-      console.log(contentId);
       await pb.collection("contents").update(contentId, {
         title: titleRef.current?.value,
       });
