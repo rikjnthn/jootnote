@@ -5,7 +5,7 @@ const SettingButton = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-5 py-4"
+      className="flex w-full items-center gap-5 px-5 py-4 hover:bg-stone-200 active:bg-stone-400"
       type="button"
       title="Setting"
     >

@@ -110,14 +110,14 @@ const FolderInput = ({
 
   return (
     <>
-      <div className={clsx(isLoading ? "py-2.5 pl-8 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "pl-13 py-2.5 opacity-50" : "hidden")}>
         <div className="flex items-center">
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
         </div>
       </div>
 
       {isInputFile && !isLoading ? (
-        <form onSubmit={handleSubmit} className="ml-2 pl-8">
+        <form onSubmit={handleSubmit} className="ml-13 mr-5">
           <Input
             onChange={handleInput}
             onBlur={handleOnBlur}

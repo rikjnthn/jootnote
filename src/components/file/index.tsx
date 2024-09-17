@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import React, { useState } from "react";
 import clsx from "clsx";
 
@@ -53,12 +53,19 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     router.push(`/note/${id}`);
   };
 
+  const segments = useSelectedLayoutSegments();
+  const isFileOpened = segments[1] ? segments[1] === id : false;
+
   return (
     <div
       onClick={openFile}
-      className={clsx("file flex items-center justify-between py-2 pl-8", {
-        hidden: isLoadingDelete,
-      })}
+      className={clsx(
+        "file pl-13 flex items-center justify-between py-2 pr-5 hover:bg-stone-200 active:bg-stone-400",
+        {
+          hidden: isLoadingDelete,
+          "bg-stone-300": isFileOpened,
+        },
+      )}
     >
       {isEdit ? (
         <FileEdit
