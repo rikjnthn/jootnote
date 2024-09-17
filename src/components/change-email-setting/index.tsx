@@ -61,6 +61,7 @@ const ChangeEmailSetting = () => {
       >
         <Input
           onChange={handleInput}
+          type="email"
           error={error}
           label="Email"
           value={email}
