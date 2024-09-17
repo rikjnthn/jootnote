@@ -14,6 +14,7 @@ import {
 } from "@/interface";
 
 const FolderInput = ({
+  files,
   folderId,
   isInputFile,
   setIsInputFile,
@@ -23,7 +24,7 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const { setFolders } = useFolder();
 
   const createFile = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -89,13 +90,11 @@ const FolderInput = ({
       return;
     }
 
-    folders.forEach((folder) => {
-      const foundFile = folder.files.find((file) => file.name === inputName);
+    const foundFile = files.find((file) => file.name === inputName);
 
-      if (foundFile) {
-        setError("Folder name already exist");
-      }
-    });
+    if (foundFile) {
+      setError("Folder name already exist");
+    }
   };
 
   const handleOnBlur = async () => {
@@ -138,6 +137,7 @@ const FolderInput = ({
 export default FolderInput;
 
 interface FileInputPropsType {
+  files: FileType[];
   folderId: string;
   isInputFile: boolean;
   setIsInputFile: SetStateType<boolean>;

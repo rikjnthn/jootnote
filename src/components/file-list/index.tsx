@@ -25,6 +25,7 @@ const FileList = ({
       })}
 
       <FileInput
+        files={files}
         folderId={folderId}
         isInputFile={isInputFile}
         setIsInputFile={setIsInputFile}
