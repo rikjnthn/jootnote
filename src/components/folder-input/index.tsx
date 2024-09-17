@@ -92,7 +92,7 @@ const FolderInput = ({
 
   return (
     <>
-      <div className={clsx(isLoading ? "py-2.5 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "py-2.5 opacity-50" : "hidden", "px-5")}>
         <div className="flex items-center">
           <ArrowIcon isOpen={false} />
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
@@ -100,7 +100,7 @@ const FolderInput = ({
       </div>
 
       {isInputFolder && !isLoading ? (
-        <form onSubmit={handleSubmit} className="ml-2">
+        <form onSubmit={handleSubmit} className="mx-5 ml-7">
           <Input
             onChange={handleInput}
             onBlur={handleOnBlur}

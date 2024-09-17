@@ -14,6 +14,7 @@ import {
 } from "@/interface";
 
 const FolderInput = ({
+  files,
   folderId,
   isInputFile,
   setIsInputFile,
@@ -23,7 +24,7 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const { setFolders } = useFolder();
 
   const createFile = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -89,13 +90,11 @@ const FolderInput = ({
       return;
     }
 
-    folders.forEach((folder) => {
-      const foundFile = folder.files.find((file) => file.name === inputName);
+    const foundFile = files.find((file) => file.name === inputName);
 
-      if (foundFile) {
-        setError("Folder name already exist");
-      }
-    });
+    if (foundFile) {
+      setError("Folder name already exist");
+    }
   };
 
   const handleOnBlur = async () => {
@@ -111,14 +110,14 @@ const FolderInput = ({
 
   return (
     <>
-      <div className={clsx(isLoading ? "py-2.5 pl-8 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "pl-13 py-2.5 opacity-50" : "hidden")}>
         <div className="flex items-center">
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
         </div>
       </div>
 
       {isInputFile && !isLoading ? (
-        <form onSubmit={handleSubmit} className="ml-2 pl-8">
+        <form onSubmit={handleSubmit} className="ml-13 mr-5">
           <Input
             onChange={handleInput}
             onBlur={handleOnBlur}
@@ -138,6 +137,7 @@ const FolderInput = ({
 export default FolderInput;
 
 interface FileInputPropsType {
+  files: FileType[];
   folderId: string;
   isInputFile: boolean;
   setIsInputFile: SetStateType<boolean>;

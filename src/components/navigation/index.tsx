@@ -30,11 +30,11 @@ const Navigation = ({
     <>
       <nav
         className={clsx(
-          "navigation fixed top-0 z-10 flex h-full w-full flex-col border-r border-r-gray-lightest bg-white p-5 xs:w-3/4 md:left-0 md:w-1/3 md:py-14",
+          "navigation fixed top-0 z-10 flex h-full w-full flex-col border-r border-r-gray-lightest bg-white py-5 xs:w-3/4 md:left-0 md:w-1/3 md:py-14",
           isOpenNav ? "left-0" : "max-md:-left-full",
         )}
       >
-        <div className="flex w-full justify-between md:pt-3">
+        <div className="flex w-full justify-between px-5 md:pt-3">
           <Logo />
           <div className="md:hidden">
             <DeleteIcon onClick={closeNav} title="Close" />

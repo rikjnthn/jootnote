@@ -12,7 +12,7 @@ const FolderList = ({
 }: FolderListPropsType) => {
   const { folders } = useFolder();
   return (
-    <div className="hide-scrollbar h-full overflow-y-scroll px-1 pt-2.5 md:mt-14">
+    <div className="hide-scrollbar h-full overflow-y-scroll pt-2.5 md:mt-14">
       {folders.map((folder) => (
         <Folder
           key={folder.id}
