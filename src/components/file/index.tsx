@@ -39,6 +39,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     } catch (e) {
     } finally {
       setIsLoadingDelete(false);
+      router.push("/");
     }
   };
 
@@ -49,7 +50,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
   };
 
   const openFile = () => {
-    router.push(`/${id}`);
+    router.push(`/note/${id}`);
   };
 
   return (

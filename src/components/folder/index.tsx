@@ -1,4 +1,5 @@
 "use client";
+import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import React, { useState } from "react";
 import clsx from "clsx";
 
@@ -18,6 +19,8 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
   const [isInputFile, setIsInputFile] = useState<boolean>(false);
 
+  const segments = useSelectedLayoutSegments();
+  const router = useRouter();
   const { pb } = usePocketbase();
   const { setFolders } = useFolder();
 
@@ -27,6 +30,14 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     setIsLoadingDelete(true);
     try {
       await pb.collection("folders").delete(id);
+
+      // if user open the file where it placed in the folder that is going to be deleted, navigate to main app
+      if (
+        segments[0] === "note" &&
+        !!files.find((file) => file.id === segments[1])
+      ) {
+        router.push("/");
+      }
 
       setFolders((prev) => prev.filter((folder) => folder.id !== id));
     } catch (e) {
