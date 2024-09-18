@@ -81,7 +81,6 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div>
         <textarea
           ref={titleRef}
-          onBlur={save}
           className="title-textarea"
           defaultValue={fileContent.title}
           placeholder="Title..."
@@ -91,7 +90,6 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div onClick={() => contentRef?.current?.focus()} className="h-full">
         <textarea
           ref={contentRef}
-          onBlur={save}
           className="context-textarea"
           defaultValue={fileContent.content}
           placeholder="Text"
