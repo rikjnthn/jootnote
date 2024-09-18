@@ -65,6 +65,10 @@ body {
   padding-top: 2rem;
 }
 
+.file-content-container {
+  width: 100%;
+}
+
 @media screen and (min-width: 768px) {
   .title-textarea {
     font-weight: 700;
@@ -81,6 +85,16 @@ body {
     padding-top: 3.5rem;
     min-height: 5.25rem;
     height: 5.25rem;
+  }
+
+  .file-content-container {
+    width: calc(2 * 100% / 3);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .file-content-container {
+    width: calc(100% - 20rem);
   }
 }
 

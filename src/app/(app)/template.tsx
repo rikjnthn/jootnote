@@ -5,7 +5,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     <div className="hide-scrollbar relative flex h-full flex-col overflow-x-hidden md:flex">
       <Header />
 
-      <div className="hide-scrollbar ml-auto h-full w-full md:w-2/3">
+      <div className="hide-scrollbar file-content-container ml-auto h-full">
         {children}
       </div>
     </div>
