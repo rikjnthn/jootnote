@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 
 import SaveContentButton from "../save-content-button";
 import { usePocketbase } from "@/context/pocketbase-context";
@@ -19,6 +19,7 @@ const updateContentHeight = (
 };
 
 const FileContent = ({ fileContent }: FileContentPropsType) => {
+  const [isContentChange, setIsContentChange] = useState<boolean>(false);
   const isMatchMedia = useMatchMedia("(min-width: 768px)");
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
@@ -68,11 +69,16 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
   }, [isMatchMedia]);
 
   const save = async () => {
+    if (!isContentChange) {
+      return;
+    }
+
     try {
       await pb.collection("contents").update(fileContent.id, {
         title: titleRef.current?.value,
         content: contentRef.current?.value,
       });
+      setIsContentChange(false);
     } catch (e) {}
   };
 
@@ -81,6 +87,7 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div>
         <textarea
           ref={titleRef}
+          onChange={() => setIsContentChange(true)}
           className="title-textarea"
           defaultValue={fileContent.title}
           placeholder="Title..."
@@ -90,13 +97,14 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div onClick={() => contentRef?.current?.focus()} className="h-full">
         <textarea
           ref={contentRef}
+          onChange={() => setIsContentChange(true)}
           className="context-textarea"
           defaultValue={fileContent.content}
           placeholder="Text"
           autoFocus
         />
       </div>
-      <SaveContentButton onClick={save} />
+      {isContentChange && <SaveContentButton onClick={save} />}
     </div>
   );
 };
