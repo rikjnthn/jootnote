@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import Pocketbase from "pocketbase";
 
-import ContentInput from "@/components/content-input";
-import TitleInput from "@/components/title-input";
+import FileContent from "@/components/file-content";
 
 const getFileContent = async (pb: Pocketbase, fileId: string) => {
   try {
@@ -22,21 +21,13 @@ export default async function Page({ params }: { params: { fileId: string } }) {
   const pb = new Pocketbase(process.env.API_URL);
   pb.authStore.loadFromCookie(cookies().toString());
 
-  const fileContent = await getFileContent(pb, params.fileId);
+  const fileContent = (await getFileContent(pb, params.fileId)) ?? {
+    id: "",
+    title: "",
+    content: "",
+  };
 
-  return (
-    <div className="flex h-full flex-col md:py-14 lg:px-20">
-      <TitleInput
-        contentId={fileContent?.id ?? ""}
-        title={fileContent?.title}
-      />
-
-      <ContentInput
-        contentId={fileContent?.id ?? ""}
-        content={fileContent?.content}
-      />
-    </div>
-  );
+  return <FileContent fileContent={fileContent} />;
 }
 
 interface ContentType {

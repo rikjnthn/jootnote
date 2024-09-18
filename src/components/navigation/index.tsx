@@ -30,7 +30,7 @@ const Navigation = ({
     <>
       <nav
         className={clsx(
-          "navigation fixed top-0 z-10 flex h-full w-full flex-col border-r border-r-gray-lightest bg-white py-5 xs:w-3/4 md:left-0 md:w-1/3 md:py-14",
+          "navigation fixed top-0 z-10 flex h-full w-full flex-col border-r border-r-gray-lightest bg-white py-5 xs:w-3/4 md:left-0 md:w-1/3 md:py-14 lg:max-w-80",
           isOpenNav ? "left-0" : "max-md:-left-full",
         )}
       >

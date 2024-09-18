@@ -8,7 +8,7 @@ import ChangeEmailSetting from "../change-email-setting";
 
 const UserSetting = () => {
   return (
-    <div className="flex h-full flex-col gap-10 p-5 px-[30px]">
+    <div className="px-7.5 flex h-full flex-col gap-10 p-5">
       <UserDataSetting />
 
       <ChangeEmailSetting />
