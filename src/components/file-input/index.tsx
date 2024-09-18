@@ -86,14 +86,19 @@ const FolderInput = ({
 
     //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {
-      setError("Folder name is not valid");
+      setError("File name is not valid");
+      return;
+    }
+
+    if (inputName.length > 256) {
+      setError("File name should not exceed 256 characters");
       return;
     }
 
     const foundFile = files.find((file) => file.name === inputName);
 
     if (foundFile) {
-      setError("Folder name already exist");
+      setError("File name already exist");
     }
   };
 
@@ -105,12 +110,17 @@ const FolderInput = ({
       return;
     }
 
+    if (name.length > 256) {
+      setError("File name should not exceed 256 characters");
+      return;
+    }
+
     createFile({ name });
   };
 
   return (
     <>
-      <div className={clsx(isLoading ? "pl-13 py-2.5 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "py-2.5 pl-13 opacity-50" : "hidden")}>
         <div className="flex items-center">
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
         </div>

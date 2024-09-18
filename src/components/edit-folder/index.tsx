@@ -84,6 +84,11 @@ const EditFolder = ({
       return;
     }
 
+    if (newName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
+      return;
+    }
+
     if (newName.length > 0) {
       updateFolder({ name: newName });
       return;
@@ -104,14 +109,19 @@ const EditFolder = ({
       return;
     }
 
-    const foundFolder = folders.find((folder) => folder.name === inputName);
-    if (foundFolder && foundFolder.id !== folderId) {
-      setError("Folder name already exist");
+    if (inputName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
       return;
     }
 
     if (inputName.length === 0) {
       setError("Please input folder name");
+      return;
+    }
+
+    const foundFolder = folders.find((folder) => folder.name === inputName);
+    if (foundFolder && foundFolder.id !== folderId) {
+      setError("Folder name already exist");
       return;
     }
   };

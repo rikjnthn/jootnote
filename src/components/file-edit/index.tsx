@@ -97,6 +97,11 @@ const EditFile = ({
       return;
     }
 
+    if (newName.length > 256) {
+      setError("File name should not exceed 256 characters");
+      return;
+    }
+
     if (newName.length > 0) {
       updateFolder({ name: newName });
       return;
@@ -113,6 +118,11 @@ const EditFile = ({
 
     if (inputName.length === 0) {
       setError("Please input file name");
+      return;
+    }
+
+    if (inputName.length > 256) {
+      setError("File name should not exceed 256 characters");
       return;
     }
 
