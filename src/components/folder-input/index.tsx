@@ -73,6 +73,11 @@ const FolderInput = ({
       return;
     }
 
+    if (inputName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
+      return;
+    }
+
     const foundFolder = folders.find((folder) => folder.name === inputName);
     if (foundFolder) {
       setError("Folder name already exist");
@@ -81,6 +86,11 @@ const FolderInput = ({
 
   const handleOnBlur = async () => {
     if (isLoading) return;
+
+    if (name.length > 256) {
+      setError("Folder name should not exceed 256 characters");
+      return;
+    }
 
     if (name.length === 0) {
       setIsInputFolder(false);
