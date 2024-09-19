@@ -34,9 +34,9 @@ const Navigation = ({
           isOpenNav ? "left-0" : "max-md:-left-full",
         )}
       >
-        <div className="flex w-full justify-between px-5 md:pt-3">
+        <div className="flex w-full items-center justify-between px-5 md:pt-3">
           <Logo />
-          <div className="md:hidden">
+          <div className="h-10 w-10 rounded-full hover:bg-neutral-200 md:hidden">
             <DeleteIcon onClick={closeNav} title="Close" />
           </div>
         </div>

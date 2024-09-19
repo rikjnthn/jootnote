@@ -8,7 +8,12 @@ const DeleteIcon = ({
   title?: string;
 }) => {
   return (
-    <button onClick={onClick} type="button" title={title}>
+    <button
+      className="flex h-full w-full items-center justify-center"
+      onClick={onClick}
+      type="button"
+      title={title}
+    >
       <svg
         width="30"
         height="30"
