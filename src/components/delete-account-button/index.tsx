@@ -16,6 +16,8 @@ const DeleteAccountButton = () => {
       await pb.collection("users").delete(userId);
 
       router.push("/login");
+
+      document.cookie = "pb_auth=null; Expires=" + new Date(-1);
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.log("Error: " + e.message);
