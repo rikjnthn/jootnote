@@ -16,12 +16,12 @@ const VerifyEmailInformation = ({
 
   return (
     <div className="absolute grid h-full w-full place-items-center p-5">
-      <div className="flex max-w-lg flex-col items-center rounded-md border border-gray-light p-10 text-center">
-        <div className="w-fit text-3xl font-bold md:text-4xl">
+      <div className="flex max-w-lg flex-col items-center rounded-md border border-gray-light p-10">
+        <div className="w-fit text-center text-3xl font-bold md:text-4xl">
           Verify Your Account
         </div>
 
-        <div className="mb-10 mt-4 max-md:text-sm">
+        <div className="mb-10 mt-4 text-center max-md:text-sm">
           We have send you a verification email. If you did not find the
           verification email, please check your spam folder.
         </div>

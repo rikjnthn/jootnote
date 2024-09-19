@@ -85,12 +85,12 @@ export default function Page() {
             isRequestError ? "border-error" : "border-gray-light",
           )}
         >
-          <div className="text-center">
+          <div>
             <div className="text-center text-3xl font-bold md:text-4xl">
               Reset Password Requested
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 text-center">
               Your reset password request has been sent. If you did not find the
               reset password email, please check your spam folder.
             </div>

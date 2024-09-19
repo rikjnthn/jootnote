@@ -25,9 +25,18 @@ const LoginCard = () => {
   const login = async (data: LoginDataType) => {
     setIsLoginError(false);
     try {
-      await pb
+      const authData = await pb
         .collection("users")
         .authWithPassword(data.email_or_username, data.password);
+
+      if (!authData.record.verified) {
+        await pb
+          .collection("users")
+          .requestVerification(authData.record?.email);
+
+        router.push("/verify-email");
+        return;
+      }
 
       const authAsCookie = pb.authStore.exportToCookie({
         httpOnly: false,
