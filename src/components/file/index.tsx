@@ -60,10 +60,10 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     <div
       onClick={openFile}
       className={clsx(
-        "file pl-13 flex items-center justify-between py-2 pr-5 hover:bg-stone-200 active:bg-stone-400",
+        "file flex items-center justify-between py-2 pl-13 pr-5 hover:bg-neutral-200 active:bg-neutral-400",
         {
           hidden: isLoadingDelete,
-          "bg-stone-300": isFileOpened,
+          "bg-neutral-300": isFileOpened,
         },
       )}
     >
@@ -78,7 +78,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
         <span className="line-clamp-1 md:text-lg">{name} </span>
       )}
 
-      <div className="file-util flex items-center">
+      <div className={clsx("file-util flex items-center", { hidden: isEdit })}>
         <EditIcon onClick={handleEdit} />
         <DeleteIcon onClick={handleDelete} title="Delete file" />
       </div>

@@ -21,7 +21,9 @@ const Setting = ({
       )}
     >
       <div className="flex items-center gap-4 p-5">
-        <BackIcon onClick={() => setIsOpenSetting(false)} />
+        <div className="h-10 w-10 rounded-full hover:bg-neutral-200">
+          <BackIcon onClick={() => setIsOpenSetting(false)} />
+        </div>
         <span className="text-xl font-medium md:text-2xl">Setting</span>
       </div>
 

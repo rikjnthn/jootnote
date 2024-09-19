@@ -130,7 +130,7 @@ const EditFolder = ({
     <form
       onClick={(e) => e.stopPropagation()}
       onSubmit={handleSubmit}
-      className="relative w-full"
+      className="relative w-full border"
     >
       <input
         onInput={handleInput}
@@ -146,7 +146,7 @@ const EditFolder = ({
         aria-invalid={error.length > 0}
       />
 
-      <div className="absolute top-7 max-w-64 bg-white text-sm text-error md:top-8">
+      <div className="input-error-message max-w-64 bg-white text-sm text-error">
         {error}
       </div>
     </form>

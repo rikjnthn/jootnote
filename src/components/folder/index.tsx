@@ -72,9 +72,9 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     <div className={clsx("cursor-default", { hidden: isLoadingDelete })}>
       <div
         onClick={() => setIsOpen((prev) => !prev)}
-        className="folder flex justify-between px-5 py-2.5 hover:bg-stone-200 active:bg-stone-400"
+        className="folder flex justify-between px-5 py-2.5 hover:bg-neutral-200 active:bg-neutral-400"
       >
-        <div className="flex items-center">
+        <div className="flex w-full items-center">
           <ArrowIcon isOpen={isOpen} />
 
           {isEdit ? (

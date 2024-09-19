@@ -29,7 +29,7 @@ const Input = (
 
       <div
         id={errorId}
-        className={clsx("absolute -bottom-6 text-sm text-error", {
+        className={clsx("input-error-message text-sm text-error", {
           hidden: !isError,
         })}
       >

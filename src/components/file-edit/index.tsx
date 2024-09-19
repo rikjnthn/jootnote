@@ -154,7 +154,7 @@ const EditFile = ({
         onInput={handleInput}
         onBlur={handleBlur}
         className={clsx(
-          "input h-fit w-full rounded-none p-0 font-medium aria-[invalid=true]:input-error focus:border-none md:text-lg",
+          "input h-fit w-full rounded-none px-0 py-1 font-medium aria-[invalid=true]:input-error focus:border-none md:text-lg",
           { "opacity-70": isLoading },
         )}
         type="text"
@@ -164,7 +164,7 @@ const EditFile = ({
         aria-invalid={error.length > 0}
       />
 
-      <div className="absolute top-7 max-w-64 bg-white text-sm text-error md:top-8">
+      <div className="input-error-message bg-white text-sm text-error">
         {error}
       </div>
     </form>
