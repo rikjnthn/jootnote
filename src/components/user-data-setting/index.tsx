@@ -32,6 +32,12 @@ const UserDataSetting = () => {
       return;
     }
 
+    if (/\s+/.test(inputUsername)) {
+      setError("Username should not contain space character");
+
+      return;
+    }
+
     if (inputUsername.length < 4) {
       setError("Username should consist of 4 letters");
       return;
@@ -77,7 +83,7 @@ const UserDataSetting = () => {
           label="Username"
           type="text"
           error={error}
-          defaultValue={user?.username}
+          value={username}
         />
 
         {isUsernameDifferent && <SubmitButton name="Change" title="Change" />}
