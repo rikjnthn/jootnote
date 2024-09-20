@@ -3,6 +3,9 @@ import { useState } from "react";
 import clsx from "clsx";
 
 import { usePocketbase } from "@/context/pocketbase-context";
+import ButtonWithTimer from "@/components/button-with-timer";
+import { TWO_MINUTES_IN_SECONDS } from "@/constant";
+import { SetStateType } from "@/interface";
 
 export default function Page() {
   const [isRequestVerifyError, setIsRequestVerifyError] =
@@ -10,11 +13,13 @@ export default function Page() {
 
   const { pb } = usePocketbase();
 
-  const requestEmail = async () => {
+  const requestEmail = async (setIsLoading: SetStateType<boolean>) => {
     try {
       await pb
         .collection("users")
         .requestVerification(pb.authStore.model?.email);
+
+      setIsLoading(true);
     } catch (e) {
       setIsRequestVerifyError(true);
     }
@@ -37,12 +42,11 @@ export default function Page() {
           verification email, please check your spam folder.
         </div>
 
-        <button
-          onClick={requestEmail}
-          className="btn btn-primary font-normal max-md:text-sm"
-        >
-          Resent Verification Email
-        </button>
+        <ButtonWithTimer
+          clickFuntion={requestEmail}
+          initialTime={TWO_MINUTES_IN_SECONDS}
+          title="Resent verification email"
+        />
       </div>
     </div>
   );

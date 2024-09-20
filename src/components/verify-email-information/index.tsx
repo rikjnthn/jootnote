@@ -3,6 +3,8 @@ import React from "react";
 
 import { SetStateType } from "@/interface";
 import { usePocketbase } from "@/context/pocketbase-context";
+import ButtonWithTimer from "../button-with-timer";
+import { TWO_MINUTES_IN_SECONDS } from "@/constant";
 
 const VerifyEmailInformation = ({
   email,
@@ -10,8 +12,12 @@ const VerifyEmailInformation = ({
 }: VerifyEmailInformationPropsType) => {
   const { pb } = usePocketbase();
 
-  const requestVerification = () => {
-    pb.collection("users").requestVerification(email);
+  const requestVerification = async (setIsLoading: SetStateType<boolean>) => {
+    try {
+      await pb.collection("users").requestVerification(email);
+
+      setIsLoading(true);
+    } catch (e) {}
   };
 
   return (
@@ -34,12 +40,11 @@ const VerifyEmailInformation = ({
             Back
           </button>
 
-          <button
-            onClick={requestVerification}
-            className="btn btn-primary font-normal max-xs:w-full md:text-base"
-          >
-            Resend verification email
-          </button>
+          <ButtonWithTimer
+            clickFuntion={requestVerification}
+            title="Resent verification email"
+            initialTime={TWO_MINUTES_IN_SECONDS}
+          />
         </div>
       </div>
     </div>
