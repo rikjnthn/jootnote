@@ -2,16 +2,18 @@
 import { useState } from "react";
 import clsx from "clsx";
 import isEmail from "validator/lib/isEmail";
+import { ClientResponseError } from "pocketbase";
+import { useForm } from "react-hook-form";
 
 import Input from "@/components/input";
-import { useForm } from "react-hook-form";
 import SubmitButton from "@/components/submit-button";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { ClientResponseError } from "pocketbase";
+import ButtonWithTimer from "@/components/button-with-timer";
+import { TWO_MINUTES_IN_SECONDS } from "@/constant";
 
 export default function Page() {
   const [isRequestError, setIsRequestError] = useState<boolean>(false);
-  const [isRequested, setIsRequested] = useState<boolean>(true);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
 
   const {
     register,
@@ -85,12 +87,12 @@ export default function Page() {
             isRequestError ? "border-error" : "border-gray-light",
           )}
         >
-          <div className="text-center">
+          <div>
             <div className="text-center text-3xl font-bold md:text-4xl">
               Reset Password Requested
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 text-center">
               Your reset password request has been sent. If you did not find the
               reset password email, please check your spam folder.
             </div>
@@ -104,12 +106,15 @@ export default function Page() {
               Back
             </button>
 
-            <button
-              onClick={() => requestReset({ email: getValues("email") })}
-              className="btn btn-primary font-normal max-xs:w-full md:text-base"
-            >
-              Resend reset password email
-            </button>
+            <ButtonWithTimer
+              clickFuntion={async (setIsLoading) => {
+                await requestReset({ email: getValues("email") });
+
+                setIsLoading(true);
+              }}
+              title="Resend reset password email"
+              initialTime={TWO_MINUTES_IN_SECONDS}
+            />
           </div>
         </div>
       </div>

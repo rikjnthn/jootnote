@@ -12,14 +12,25 @@ export default async function Layout({
   const cookie = cookies().toString();
   try {
     pb.authStore.loadFromCookie(cookie);
-
-    if (!pb.authStore.isValid) {
-      throw new Error("Unauthorized");
-    }
-
-    await pb.collection("users").getOne(pb.authStore.model?.id);
   } catch (e) {
     redirect("/login");
+  }
+
+  if (!pb.authStore.isValid) {
+    redirect("/login");
+  }
+
+  const authRecord = await pb
+    .collection("users")
+    .getOne(pb.authStore.model?.id)
+    .catch(() => {
+      redirect("/login");
+    });
+
+  if (!authRecord.verified) {
+    await pb.collection("users").requestVerification(authRecord.email);
+
+    redirect("/verify-email");
   }
 
   return children;

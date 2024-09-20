@@ -36,6 +36,7 @@ const SignUpCard = () => {
       });
 
       await pb.collection("users").requestVerification(data.email);
+
       setIsVerifying(true);
     } catch (e) {
       if (e instanceof ClientResponseError) {

@@ -3,6 +3,8 @@ import React from "react";
 
 import { SetStateType } from "@/interface";
 import { usePocketbase } from "@/context/pocketbase-context";
+import ButtonWithTimer from "../button-with-timer";
+import { TWO_MINUTES_IN_SECONDS } from "@/constant";
 
 const VerifyEmailInformation = ({
   email,
@@ -10,18 +12,22 @@ const VerifyEmailInformation = ({
 }: VerifyEmailInformationPropsType) => {
   const { pb } = usePocketbase();
 
-  const requestVerification = () => {
-    pb.collection("users").requestVerification(email);
+  const requestVerification = async (setIsLoading: SetStateType<boolean>) => {
+    try {
+      await pb.collection("users").requestVerification(email);
+
+      setIsLoading(true);
+    } catch (e) {}
   };
 
   return (
     <div className="absolute grid h-full w-full place-items-center p-5">
-      <div className="flex max-w-lg flex-col items-center rounded-md border border-gray-light p-10 text-center">
-        <div className="w-fit text-3xl font-bold md:text-4xl">
+      <div className="flex max-w-lg flex-col items-center rounded-md border border-gray-light p-10">
+        <div className="w-fit text-center text-3xl font-bold md:text-4xl">
           Verify Your Account
         </div>
 
-        <div className="mb-10 mt-4 max-md:text-sm">
+        <div className="mb-10 mt-4 text-center max-md:text-sm">
           We have send you a verification email. If you did not find the
           verification email, please check your spam folder.
         </div>
@@ -34,12 +40,11 @@ const VerifyEmailInformation = ({
             Back
           </button>
 
-          <button
-            onClick={requestVerification}
-            className="btn btn-primary font-normal max-xs:w-full md:text-base"
-          >
-            Resend verification email
-          </button>
+          <ButtonWithTimer
+            clickFuntion={requestVerification}
+            title="Resent verification email"
+            initialTime={TWO_MINUTES_IN_SECONDS}
+          />
         </div>
       </div>
     </div>

@@ -131,12 +131,14 @@ export default function Page({ params }: { params: { token: string } }) {
               "flex w-full max-w-md flex-col items-center gap-16 rounded-md border p-10",
             )}
           >
-            <div className="text-center">
+            <div>
               <div className="text-center text-3xl font-bold md:text-4xl">
                 Password Reset
               </div>
 
-              <div className="mt-4">Your password has been reset.</div>
+              <div className="mt-4 text-center">
+                Your password has been reset.
+              </div>
             </div>
 
             <Link href="/login" className="btn btn-primary font-normal">

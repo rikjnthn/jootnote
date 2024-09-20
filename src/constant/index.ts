@@ -1,0 +1,1 @@
+export const TWO_MINUTES_IN_SECONDS = 120;

@@ -90,12 +90,12 @@ export default function Page({ params }: { params: { token: string } }) {
               "flex w-full max-w-md flex-col items-center gap-16 rounded-md border p-10",
             )}
           >
-            <div className="text-center">
+            <div>
               <div className="text-center text-3xl font-bold md:text-4xl">
                 Email Has Been Changed
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4 text-center">
                 Your Email has been changed. This action automatically logout
                 your account.
               </div>
