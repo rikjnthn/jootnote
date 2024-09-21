@@ -2,6 +2,7 @@
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import React, { useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import DeleteIcon from "../delete-icon";
 import EditIcon from "../edit-icon";
@@ -37,6 +38,9 @@ const File = ({ id, name, folderId }: FilePropsType) => {
         return newFolders;
       });
     } catch (e) {
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+      }
     } finally {
       setIsLoadingDelete(false);
       router.push("/");

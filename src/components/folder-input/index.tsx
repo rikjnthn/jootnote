@@ -19,6 +19,7 @@ const FolderInput = ({
 
   const { pb } = usePocketbase();
   const { folders, setFolders } = useFolder();
+
   const userId = pb.authStore.model?.id;
 
   const createFolder = async (data: FolderDataType) => {

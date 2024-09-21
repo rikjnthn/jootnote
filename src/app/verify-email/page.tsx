@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import { usePocketbase } from "@/context/pocketbase-context";
 import ButtonWithTimer from "@/components/button-with-timer";
@@ -21,7 +22,11 @@ export default function Page() {
 
       setIsLoading(true);
     } catch (e) {
-      setIsRequestVerifyError(true);
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+
+        setIsRequestVerifyError(true);
+      }
     }
   };
 
