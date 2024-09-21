@@ -36,7 +36,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     try {
       await pb.collection("folders").delete(id);
 
-      // if user open the file where it placed in the folder that is going to be deleted, navigate to main app
+      // if user open a file where the file is placed in the folder that is going to be deleted, navigate to main app
       if (
         segments[0] === "note" &&
         !!files.find((file) => file.id === segments[1])

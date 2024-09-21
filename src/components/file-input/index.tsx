@@ -84,6 +84,11 @@ const FolderInput = ({
     setName(inputName);
     setError("");
 
+    if (inputName.length === 0) {
+      setError("Please input file name");
+      return;
+    }
+
     //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {
       setError("File name is not valid");

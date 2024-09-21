@@ -11,7 +11,7 @@ import SubmitButton from "@/components/submit-button";
 import Input from "@/components/input";
 
 const LoginCard = () => {
-  const [isLoginError, setIsLoginError] = useState<boolean>(false);
+  const [isError, setisError] = useState<boolean>(false);
 
   const {
     register,
@@ -23,7 +23,7 @@ const LoginCard = () => {
   const { pb } = usePocketbase();
 
   const login = async (data: LoginDataType) => {
-    setIsLoginError(false);
+    setisError(false);
     try {
       const authData = await pb
         .collection("users")
@@ -48,7 +48,7 @@ const LoginCard = () => {
       if (e instanceof ClientResponseError) {
         console.error("Error " + e.message);
 
-        setIsLoginError(true);
+        setisError(true);
       }
     }
   };
@@ -58,7 +58,7 @@ const LoginCard = () => {
       <div
         className={clsx(
           "flex w-full max-w-md flex-col items-center gap-16 rounded-md border p-10",
-          isLoginError ? "border-error" : "border-gray-light",
+          isError ? "border-error" : "border-gray-light",
         )}
       >
         <div className="text-3xl font-bold md:text-4xl">Login</div>
@@ -114,7 +114,7 @@ const LoginCard = () => {
             })}
           />
 
-          {isLoginError && <div className="text-error">Failed to login</div>}
+          {isError && <div className="text-error">Failed to login</div>}
 
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2 max-md:text-sm">

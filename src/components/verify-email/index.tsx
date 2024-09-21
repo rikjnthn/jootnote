@@ -22,17 +22,15 @@ const VerifyEmail = async ({ token }: VerifyEmailPropsType) => {
 
   if (!isVerified) {
     return (
-      <div>
-        <div className="absolute grid h-full w-full place-items-center">
-          <div className="flex flex-col items-center">
-            <div className="px-10">
-              <div className="mx-auto text-center text-3xl font-bold md:text-4xl">
-                Token Is Invalid
-              </div>
+      <div className="absolute grid h-full w-full place-items-center">
+        <div className="flex flex-col items-center">
+          <div className="px-10">
+            <div className="mx-auto text-center text-3xl font-bold md:text-4xl">
+              Token Is Invalid
+            </div>
 
-              <div className="mt-4 text-center max-md:text-sm">
-                Your token is invalid or may be expired.
-              </div>
+            <div className="mt-4 text-center max-md:text-sm">
+              Your token is invalid or may be expired.
             </div>
           </div>
         </div>

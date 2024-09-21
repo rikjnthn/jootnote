@@ -65,13 +65,13 @@ const EditFolder = ({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (newName === folderName) {
-      setIsEdit(false);
+    if (newName.length === 0) {
+      setError("Please input folder name");
       return;
     }
 
-    if (newName.length === 0) {
-      setError("Please input folder name");
+    if (newName === folderName) {
+      setIsEdit(false);
       return;
     }
 
