@@ -36,6 +36,8 @@ const VerifyEmailInformation = ({
           <button
             onClick={() => setIsVerifying(false)}
             className="btn btn-primary font-normal max-xs:w-full md:text-base"
+            type="button"
+            title="Back"
           >
             Back
           </button>

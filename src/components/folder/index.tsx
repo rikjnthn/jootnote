@@ -2,6 +2,7 @@
 import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import ArrowIcon from "../arrow-icon";
 import EditIcon from "../edit-icon";
@@ -46,6 +47,9 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
       localStorage.removeItem(id);
       setFolders((prev) => prev.filter((folder) => folder.id !== id));
     } catch (e) {
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+      }
     } finally {
       setIsLoadingDelete(false);
     }

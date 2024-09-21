@@ -1,5 +1,6 @@
 "use client";
 import React, { RefObject, useEffect, useRef, useState } from "react";
+import { ClientResponseError } from "pocketbase";
 
 import SaveContentButton from "../save-content-button";
 import { usePocketbase } from "@/context/pocketbase-context";
@@ -79,7 +80,11 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
         content: contentRef.current?.value,
       });
       setIsContentChange(false);
-    } catch (e) {}
+    } catch (e) {
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+      }
+    }
   };
 
   return (

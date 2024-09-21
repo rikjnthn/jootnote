@@ -33,6 +33,8 @@ export default function Page() {
       setIsRequested(true);
     } catch (e) {
       if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+
         setIsRequestError(true);
 
         setError("email", { message: e.response.data.email });
@@ -102,6 +104,8 @@ export default function Page() {
             <button
               onClick={() => setIsRequested(false)}
               className="btn btn-primary font-normal max-xs:w-full md:text-base"
+              type="button"
+              title="Back"
             >
               Back
             </button>

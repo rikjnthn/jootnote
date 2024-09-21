@@ -1,12 +1,13 @@
 "use client";
+import Link from "next/link";
 import clsx from "clsx";
+import { useState } from "react";
+import { ClientResponseError } from "pocketbase";
+import { useForm } from "react-hook-form";
 
+import { usePocketbase } from "@/context/pocketbase-context";
 import SubmitButton from "@/components/submit-button";
 import Input from "@/components/input";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { useState } from "react";
-import { usePocketbase } from "@/context/pocketbase-context";
 
 export default function Page({ params }: { params: { token: string } }) {
   const [isChange, setIsChange] = useState<boolean>(false);
@@ -29,7 +30,11 @@ export default function Page({ params }: { params: { token: string } }) {
 
       setIsChange(true);
     } catch (e) {
-      setIsError(true);
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+
+        setIsError(true);
+      }
     }
   };
 
