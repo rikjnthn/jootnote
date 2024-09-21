@@ -12,7 +12,7 @@ export default async function Layout({
   const cookie = cookies().toString();
   try {
     pb.authStore.loadFromCookie(cookie);
-  } catch (e) {
+  } catch {
     redirect("/login");
   }
 

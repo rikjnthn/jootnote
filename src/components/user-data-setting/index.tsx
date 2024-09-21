@@ -13,8 +13,7 @@ const UserDataSetting = () => {
   const [username, setUsername] = useState<string>(
     pb.authStore.model?.username,
   );
-  const [isUsernameDifferent, setIsUsernameDifferent] =
-    useState<boolean>(false);
+  const [isUsernameChange, setIsUsernameChange] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const user = pb.authStore.model;
@@ -25,7 +24,7 @@ const UserDataSetting = () => {
     setUsername(inputUsername);
     setError("");
 
-    setIsUsernameDifferent(user?.username !== inputUsername);
+    setIsUsernameChange(user?.username !== inputUsername);
 
     if (inputUsername.length === 0) {
       setError("Please input your new username");
@@ -54,15 +53,16 @@ const UserDataSetting = () => {
 
     if (error.length > 0) return;
 
-    if (!isUsernameDifferent) return;
+    if (!isUsernameChange) return;
 
-    setIsUsernameDifferent(false);
+    setIsUsernameChange(false);
     try {
       await pb.collection("users").update(user?.id, {
         username,
       });
     } catch (e) {
       if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
         setError(e.response.data.username);
       }
     }
@@ -86,7 +86,7 @@ const UserDataSetting = () => {
           value={username}
         />
 
-        {isUsernameDifferent && <SubmitButton name="Change" title="Change" />}
+        {isUsernameChange && <SubmitButton name="Change" title="Change" />}
       </form>
     </div>
   );

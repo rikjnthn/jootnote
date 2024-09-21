@@ -4,7 +4,7 @@ import { ClientResponseError } from "pocketbase";
 import clsx from "clsx";
 
 import { usePocketbase } from "@/context/pocketbase-context";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import Input from "../input";
 import {
   FileType,
@@ -24,7 +24,7 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
 
   const createFile = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -83,6 +83,11 @@ const FolderInput = ({
 
     setName(inputName);
     setError("");
+
+    if (inputName.length === 0) {
+      setError("Please input file name");
+      return;
+    }
 
     //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {

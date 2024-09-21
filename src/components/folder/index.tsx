@@ -11,7 +11,7 @@ import PlusIcon from "../plus-icon";
 import FileList from "../file-list";
 import { usePocketbase } from "@/context/pocketbase-context";
 import EditFolder from "../edit-folder";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import { FileType } from "@/interface";
 
 const getIsFolderOpen = (folderId: string): boolean => {
@@ -27,7 +27,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
   const segments = useSelectedLayoutSegments();
   const router = useRouter();
   const { pb } = usePocketbase();
-  const { setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     try {
       await pb.collection("folders").delete(id);
 
-      // if user open the file where it placed in the folder that is going to be deleted, navigate to main app
+      // if user open a file where the file is placed in the folder that is going to be deleted, navigate to main app
       if (
         segments[0] === "note" &&
         !!files.find((file) => file.id === segments[1])

@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import Pocketbase from "pocketbase";
+import Pocketbase, { ClientResponseError } from "pocketbase";
 
 import FileContent from "@/components/file-content";
 
@@ -13,7 +13,9 @@ const getFileContent = async (pb: Pocketbase, fileId: string) => {
 
     return record;
   } catch (e) {
-    console.log(e);
+    if (e instanceof ClientResponseError) {
+      console.log("Error: " + e.message);
+    }
   }
 };
 

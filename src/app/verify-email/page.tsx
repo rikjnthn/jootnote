@@ -9,8 +9,7 @@ import { TWO_MINUTES_IN_SECONDS } from "@/constant";
 import { SetStateType } from "@/interface";
 
 export default function Page() {
-  const [isRequestVerifyError, setIsRequestVerifyError] =
-    useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
 
@@ -25,7 +24,7 @@ export default function Page() {
       if (e instanceof ClientResponseError) {
         console.error("Error: " + e.message);
 
-        setIsRequestVerifyError(true);
+        setIsError(true);
       }
     }
   };
@@ -35,7 +34,7 @@ export default function Page() {
       <div
         className={clsx(
           "flex w-full max-w-lg flex-col items-center rounded-md border p-10",
-          isRequestVerifyError ? "border-error" : "border-gray-light",
+          isError ? "border-error" : "border-gray-light",
         )}
       >
         <div className="text-center text-3xl font-bold md:text-4xl">
@@ -50,6 +49,7 @@ export default function Page() {
         <ButtonWithTimer
           clickFuntion={requestEmail}
           initialTime={TWO_MINUTES_IN_SECONDS}
+          initialIsLoading
           title="Resent verification email"
         />
       </div>

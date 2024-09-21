@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { ClientResponseError } from "pocketbase";
 
 import { FolderDataType, SetStateType } from "@/interface";
-import { useFolder } from "@/context/folder-context";
+import { useFolders, useFoldersDispatch } from "@/context/folder-context";
 import { usePocketbase } from "@/context/pocketbase-context";
 
 const EditFile = ({
@@ -17,7 +17,8 @@ const EditFile = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const folders = useFolders();
+  const setFolders = useFoldersDispatch();
 
   const updateFolder = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -78,13 +79,13 @@ const EditFile = ({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (newName === fileName) {
-      setIsEdit(false);
+    if (newName.length === 0) {
+      setError("Please input folder name");
       return;
     }
 
-    if (newName.length === 0) {
-      setError("Please input folder name");
+    if (newName === fileName) {
+      setIsEdit(false);
       return;
     }
 

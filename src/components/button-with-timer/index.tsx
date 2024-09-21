@@ -8,8 +8,9 @@ const ButtonWithTimer = ({
   clickFuntion,
   title,
   initialTime,
+  initialIsLoading = false,
 }: ButtonWithTimerPropsType) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(initialIsLoading);
   const [timeReminder, setTimeReminder] = useState<number>(initialTime);
 
   const handleClick = () => {
@@ -63,5 +64,6 @@ export default ButtonWithTimer;
 interface ButtonWithTimerPropsType {
   title: string;
   initialTime: number;
+  initialIsLoading?: boolean;
   clickFuntion?: (setIsLaoding: SetStateType<boolean>) => void;
 }

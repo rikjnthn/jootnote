@@ -35,7 +35,7 @@ body {
 }
 
 .title-textarea,
-.context-textarea {
+.content-textarea {
   width: 100%;
   overflow: hidden;
   letter-spacing: 0.025rem;
@@ -44,7 +44,7 @@ body {
 }
 
 .title-textarea:focus,
-.context-textarea:focus {
+.content-textarea:focus {
   outline: none;
 }
 
@@ -54,10 +54,9 @@ body {
   line-height: 2rem;
   min-height: 2rem;
   height: 2rem;
-  text-transform: capitalize;
 }
 
-.context-textarea {
+.content-textarea {
   font-size: 0.875rem;
   line-height: 1.5rem;
   min-height: 3.5rem;
@@ -85,7 +84,7 @@ body {
     padding-block: 1rem;
   }
 
-  .context-textarea {
+  .content-textarea {
     font-size: 1rem;
     line-height: 1.75rem;
     padding-top: 3.5rem;

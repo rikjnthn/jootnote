@@ -12,7 +12,7 @@ const ChangeEmailSetting = () => {
   const { pb } = usePocketbase();
 
   const [email, setEmail] = useState<string>(pb.authStore.model?.email);
-  const [isEmailDifferent, setIsEmailDifferent] = useState<boolean>(false);
+  const [isEmailChange, setIsEmailChange] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const user = pb.authStore.model;
@@ -23,7 +23,7 @@ const ChangeEmailSetting = () => {
     setEmail(inputEmail);
     setError("");
 
-    setIsEmailDifferent(user?.email !== inputEmail);
+    setIsEmailChange(user?.email !== inputEmail);
 
     if (inputEmail.length === 0) {
       setError("Please input your email");
@@ -41,13 +41,15 @@ const ChangeEmailSetting = () => {
 
     if (error.length > 0) return;
 
-    if (!isEmailDifferent) return;
+    if (!isEmailChange) return;
 
-    setIsEmailDifferent(false);
+    setIsEmailChange(false);
     try {
       await pb.collection("users").requestEmailChange(email);
     } catch (e) {
       if (e instanceof ClientResponseError) {
+        console.log("Error: " + e.message);
+
         setError(e.response.data.email);
       }
     }
@@ -67,7 +69,7 @@ const ChangeEmailSetting = () => {
           value={email}
         />
 
-        {isEmailDifferent && <SubmitButton name="Change" title="Change" />}
+        {isEmailChange && <SubmitButton name="Change" title="Change" />}
       </form>
     </div>
   );

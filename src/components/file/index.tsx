@@ -7,7 +7,7 @@ import { ClientResponseError } from "pocketbase";
 import DeleteIcon from "../delete-icon";
 import EditIcon from "../edit-icon";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import FileEdit from "../file-edit";
 
 const File = ({ id, name, folderId }: FilePropsType) => {
@@ -16,7 +16,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
 
   const router = useRouter();
   const { pb } = usePocketbase();
-  const { setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
