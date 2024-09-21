@@ -4,24 +4,19 @@ import { ClientResponseError } from "pocketbase";
 
 import SaveContentButton from "../save-content-button";
 import { usePocketbase } from "@/context/pocketbase-context";
-import useMatchMedia from "@/hooks/useMatchMedia";
 
-const updateContentHeight = (
-  e: Event,
-  element: RefObject<HTMLTextAreaElement>,
-) => {
+const updateContentHeight = (element: RefObject<HTMLTextAreaElement>) => {
   if (!element.current) return;
 
   element.current.style.height = "0";
 
-  const scrollHeight = (e.currentTarget as HTMLTextAreaElement).scrollHeight;
+  const scrollHeight = element.current.scrollHeight;
 
   element.current.style.height = `${scrollHeight}px`;
 };
 
 const FileContent = ({ fileContent }: FileContentPropsType) => {
   const [isContentChange, setIsContentChange] = useState<boolean>(false);
-  const isMatchMedia = useMatchMedia("(min-width: 768px)");
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -29,45 +24,21 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
   const { pb } = usePocketbase();
 
   useEffect(() => {
-    const contentElement = contentRef.current;
-    const titleElement = titleRef.current;
-
-    contentElement?.addEventListener("input", (e) =>
-      updateContentHeight(e, contentRef),
-    );
-
-    titleElement?.addEventListener("input", (e) =>
-      updateContentHeight(e, titleRef),
-    );
-
-    return () => {
-      contentElement?.removeEventListener("input", (e) =>
-        updateContentHeight(e, contentRef),
-      );
-
-      titleElement?.removeEventListener("input", (e) =>
-        updateContentHeight(e, titleRef),
-      );
-    };
+    updateContentHeight(titleRef);
+    updateContentHeight(contentRef);
   }, []);
 
   useEffect(() => {
-    const element = contentRef?.current;
-    if (!element) return;
+    const handleResize = () => {
+      updateContentHeight(titleRef);
+      updateContentHeight(contentRef);
+    };
 
-    const changeEvent = new Event("input", { bubbles: true });
-
-    contentRef?.current.dispatchEvent(changeEvent);
-  }, [isMatchMedia]);
-
-  useEffect(() => {
-    const element = titleRef?.current;
-    if (!element) return;
-
-    const changeEvent = new Event("input", { bubbles: true });
-
-    titleRef?.current.dispatchEvent(changeEvent);
-  }, [isMatchMedia]);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const save = async () => {
     if (!isContentChange) {
@@ -92,7 +63,11 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div>
         <textarea
           ref={titleRef}
-          onChange={() => setIsContentChange(true)}
+          onChange={() => {
+            setIsContentChange(true);
+            updateContentHeight(titleRef);
+          }}
+          onResize={() => console.log("first")}
           className="title-textarea"
           defaultValue={fileContent.title}
           placeholder="Title..."
@@ -102,8 +77,11 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
       <div onClick={() => contentRef?.current?.focus()} className="h-full">
         <textarea
           ref={contentRef}
-          onChange={() => setIsContentChange(true)}
-          className="context-textarea"
+          onChange={() => {
+            setIsContentChange(true);
+            updateContentHeight(contentRef);
+          }}
+          className="content-textarea"
           defaultValue={fileContent.content}
           placeholder="Text"
           autoFocus
