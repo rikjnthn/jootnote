@@ -6,12 +6,26 @@ import { usePocketbase } from "./pocketbase-context";
 import { FolderType, SetStateType } from "@/interface";
 
 const FolderContext = createContext<FolderContextType | undefined>(undefined);
+const FolderDispatchContext = createContext<
+  FoldersDispatchContextType | undefined
+>(undefined);
 
-export const useFolder = () => {
+export const useFolders = () => {
   const context = useContext(FolderContext);
 
   if (!context)
-    throw new Error("useFolder must be used inside a FolderProvider");
+    throw new Error("useFolders must be used inside a FolderProvider");
+
+  return context;
+};
+
+export const useFoldersDispatch = () => {
+  const context = useContext(FolderDispatchContext);
+
+  if (!context)
+    throw new Error(
+      "useFoldersDispatch must be used inside a FolderDispatchProvider",
+    );
 
   return context;
 };
@@ -57,13 +71,13 @@ export const FolderProvider = ({ children }: { children: React.ReactNode }) => {
   }, [pb]);
 
   return (
-    <FolderContext.Provider value={{ folders, setFolders }}>
-      {children}
-    </FolderContext.Provider>
+    <FolderDispatchContext.Provider value={setFolders}>
+      <FolderContext.Provider value={folders}>
+        {children}
+      </FolderContext.Provider>
+    </FolderDispatchContext.Provider>
   );
 };
 
-interface FolderContextType {
-  folders: FolderType[];
-  setFolders: SetStateType<FolderType[]>;
-}
+type FolderContextType = FolderType[];
+type FoldersDispatchContextType = SetStateType<FolderType[]>;

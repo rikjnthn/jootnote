@@ -11,7 +11,7 @@ import PlusIcon from "../plus-icon";
 import FileList from "../file-list";
 import { usePocketbase } from "@/context/pocketbase-context";
 import EditFolder from "../edit-folder";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import { FileType } from "@/interface";
 
 const getIsFolderOpen = (folderId: string): boolean => {
@@ -27,7 +27,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
   const segments = useSelectedLayoutSegments();
   const router = useRouter();
   const { pb } = usePocketbase();
-  const { setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();

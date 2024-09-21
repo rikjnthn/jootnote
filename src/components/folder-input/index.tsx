@@ -7,7 +7,7 @@ import { usePocketbase } from "@/context/pocketbase-context";
 import Input from "../input";
 import ArrowIcon from "../arrow-icon";
 import { FolderDataType, FolderType, SetStateType } from "@/interface";
-import { useFolder } from "@/context/folder-context";
+import { useFolders, useFoldersDispatch } from "@/context/folder-context";
 
 const FolderInput = ({
   isInputFolder,
@@ -18,7 +18,8 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const folders = useFolders();
+  const setFolders = useFoldersDispatch();
 
   const userId = pb.authStore.model?.id;
 
