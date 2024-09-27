@@ -77,6 +77,7 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
       <div
         onClick={() => setIsOpen((prev) => !prev)}
         className="folder flex justify-between px-5 py-2.5 hover:bg-neutral-200 active:bg-neutral-400"
+        title={name}
       >
         <div className="flex w-full items-center">
           <ArrowIcon isOpen={isOpen} />

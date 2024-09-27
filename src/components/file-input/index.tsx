@@ -13,7 +13,7 @@ import {
   SetStateType,
 } from "@/interface";
 
-const FolderInput = ({
+const FileInput = ({
   files,
   folderId,
   isInputFile,
@@ -149,7 +149,7 @@ const FolderInput = ({
   );
 };
 
-export default FolderInput;
+export default FileInput;
 
 interface FileInputPropsType {
   files: FileType[];

@@ -12,7 +12,7 @@ const FileList = ({
   setIsInputFile,
 }: FileListPropsType) => {
   return (
-    <div>
+    <ul>
       {files.map((file) => {
         return (
           <File
@@ -30,7 +30,7 @@ const FileList = ({
         isInputFile={isInputFile}
         setIsInputFile={setIsInputFile}
       />
-    </div>
+    </ul>
   );
 };
 

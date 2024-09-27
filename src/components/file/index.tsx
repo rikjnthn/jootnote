@@ -15,8 +15,11 @@ const File = ({ id, name, folderId }: FilePropsType) => {
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
 
   const router = useRouter();
+  const segments = useSelectedLayoutSegments();
   const { pb } = usePocketbase();
   const setFolders = useFoldersDispatch();
+
+  const isFileOpened = segments[1] ? segments[1] === id : false;
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,7 +46,10 @@ const File = ({ id, name, folderId }: FilePropsType) => {
       }
     } finally {
       setIsLoadingDelete(false);
-      router.push("/");
+
+      if (isFileOpened) {
+        router.push("/");
+      }
     }
   };
 
@@ -57,9 +63,6 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     router.push(`/note/${id}`);
   };
 
-  const segments = useSelectedLayoutSegments();
-  const isFileOpened = segments[1] ? segments[1] === id : false;
-
   return (
     <div
       onClick={openFile}
@@ -70,6 +73,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
           "bg-neutral-300": isFileOpened,
         },
       )}
+      title={name}
     >
       {isEdit ? (
         <FileEdit

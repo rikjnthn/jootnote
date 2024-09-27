@@ -96,7 +96,7 @@ const LoginCard = () => {
             {...register("password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               minLength: {
                 value: 8,
@@ -104,7 +104,7 @@ const LoginCard = () => {
               },
               maxLength: {
                 value: 64,
-                message: "Password should not consist more than 64 letters",
+                message: "Password should not be more than 64 letters",
               },
               validate: {
                 isNotContainSpace: (v) => {

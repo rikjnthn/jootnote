@@ -42,6 +42,7 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
 
   const save = async () => {
     if (!isContentChange) {
+      setIsContentChange(false);
       return;
     }
 
@@ -67,7 +68,6 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
             setIsContentChange(true);
             updateContentHeight(titleRef);
           }}
-          onResize={() => console.log("first")}
           className="title-textarea"
           defaultValue={fileContent.title}
           placeholder="Title..."

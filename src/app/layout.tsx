@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { roboto } from "@/fonts";
 import "./globals.css";
-import PocketbaseProvider from "@/context/pocketbase-context";
+import { PocketbaseProvider } from "@/context/pocketbase-context";
 
 export const metadata: Metadata = {
   title: "JootNote",

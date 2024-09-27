@@ -16,13 +16,13 @@ export const usePocketbase = () => {
   return context;
 };
 
-export default function PocketbaseProvider({
+export const PocketbaseProvider = ({
   API_URL,
   children,
 }: {
   API_URL?: string;
   children: React.ReactNode;
-}) {
+}) => {
   const pb = useMemo(() => new Pocketbase(API_URL), [API_URL]);
   const date = useRef(new Date()).current;
 
@@ -56,7 +56,7 @@ export default function PocketbaseProvider({
       {children}
     </PocketbaseContext.Provider>
   );
-}
+};
 
 interface PocketbaseContextType {
   pb: Pocketbase;

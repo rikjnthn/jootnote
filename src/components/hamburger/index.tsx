@@ -1,6 +1,6 @@
 import React from "react";
 
-const Hamburger = ({ onClick }: { onClick: React.MouseEventHandler }) => {
+const Hamburger = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
   return (
     <button
       className="rounded-full hover:bg-neutral-200"

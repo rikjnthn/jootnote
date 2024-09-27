@@ -114,6 +114,7 @@ export default function Page() {
 
               setIsLoading(true);
             }}
+            name="Resend reset password"
             title="Resend reset password email"
             initialTime={TWO_MINUTES_IN_SECONDS}
             initialIsLoading

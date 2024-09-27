@@ -47,6 +47,7 @@ const VerifyEmailInformation = ({
         </button>
 
         <ButtonWithTimer
+          name="Resend email verification"
           clickFuntion={requestVerification}
           title="Resent verification email"
           initialTime={TWO_MINUTES_IN_SECONDS}

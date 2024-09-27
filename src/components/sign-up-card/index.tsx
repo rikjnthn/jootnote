@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import isEmail from "validator/es/lib/isEmail";
+import isEmail from "validator/lib/isEmail";
 import { ClientResponseError } from "pocketbase";
 import clsx from "clsx";
 
@@ -79,7 +79,7 @@ const SignUpCard = () => {
             {...register("email", {
               required: {
                 value: true,
-                message: "Please insert your email address",
+                message: "Please input your email address",
               },
               validate: {
                 isValidEmail: (v) => {
@@ -96,7 +96,7 @@ const SignUpCard = () => {
             {...register("username", {
               required: {
                 value: true,
-                message: "Please insert your username",
+                message: "Please input your username",
               },
               minLength: {
                 value: 4,
@@ -121,7 +121,7 @@ const SignUpCard = () => {
             {...register("password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               minLength: {
                 value: 8,
@@ -146,7 +146,7 @@ const SignUpCard = () => {
             {...register("confirm_password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               validate: {
                 isSameAsPassword: (v) => {
