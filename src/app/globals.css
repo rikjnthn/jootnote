@@ -34,6 +34,16 @@ body {
   transition: inset 500ms;
 }
 
+.spin {
+  animation: spin 500ms linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    rotate: 360deg;
+  }
+}
+
 .title-textarea,
 .content-textarea {
   width: 100%;

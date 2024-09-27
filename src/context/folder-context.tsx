@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { usePocketbase } from "./pocketbase-context";
 import { FolderType, SetStateType } from "@/interface";
 import getFolders from "@/util/get-folders";
+import FolderListSkeleton from "@/components/folder-list-skeleton";
 
 const FolderContext = createContext<FolderContextType | undefined>(undefined);
 const FolderDispatchContext = createContext<
@@ -32,12 +33,17 @@ export const useFoldersDispatch = () => {
 
 export const FolderProvider = ({ children }: { children: React.ReactNode }) => {
   const [folders, setFolders] = useState<FolderType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { pb } = usePocketbase();
 
   useEffect(() => {
-    getFolders(pb, setFolders);
+    getFolders(pb, setFolders, setIsLoading);
   }, [pb]);
+
+  if (isLoading) {
+    return <FolderListSkeleton />;
+  }
 
   return (
     <FolderDispatchContext.Provider value={setFolders}>

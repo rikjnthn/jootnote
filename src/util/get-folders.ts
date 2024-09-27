@@ -5,7 +5,9 @@ import { FolderType, SetStateType } from "@/interface";
 const getFolders = async (
   pb: Pocketbase,
   setFolders: SetStateType<FolderType[]>,
+  setIsLoading: SetStateType<boolean>,
 ) => {
+  setIsLoading(true);
   try {
     const userId = pb.authStore.model?.id;
 
@@ -27,6 +29,8 @@ const getFolders = async (
     if (e instanceof ClientResponseError) {
       console.error("Error: " + e.message);
     }
+  } finally {
+    setIsLoading(false);
   }
 };
 

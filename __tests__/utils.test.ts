@@ -67,8 +67,11 @@ describe("Test Utils", () => {
 
     const { pb } = usePocketbase();
     const mockSetFolders = jest.fn();
+    const mockSetIsLoading = jest.fn();
 
-    await expect(getFolders(pb, mockSetFolders)).resolves.toEqual([
+    await expect(
+      getFolders(pb, mockSetFolders, mockSetIsLoading),
+    ).resolves.toEqual([
       {
         id: "folder_id",
         name: "Folder",
