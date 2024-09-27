@@ -69,26 +69,25 @@ const UserDataSetting = () => {
   };
 
   return (
-    <div>
-      <span className="text-xl font-semibold md:text-2xl">User</span>
-      <form
-        onSubmit={handleSubmit}
-        className={clsx(
-          "flex flex-col pt-4",
-          error.length > 0 ? "gap-7" : "gap-4",
-        )}
-      >
-        <Input
-          onChange={handleInput}
-          label="Username"
-          type="text"
-          error={error}
-          value={username}
-        />
+    <form
+      onSubmit={handleSubmit}
+      className={clsx(
+        "flex flex-col pt-4",
+        error.length > 0 ? "gap-7" : "gap-4",
+      )}
+    >
+      <Input
+        onChange={handleInput}
+        label="Username"
+        name="username"
+        type="text"
+        error={error}
+        value={username}
+        placeholder="Username"
+      />
 
-        {isUsernameChange && <SubmitButton name="Change" title="Change" />}
-      </form>
-    </div>
+      {isUsernameChange && <SubmitButton name="Change" title="Change" />}
+    </form>
   );
 };
 

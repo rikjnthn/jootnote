@@ -19,6 +19,8 @@ const LogoutButton = () => {
     <button
       onClick={logout}
       className="btn btn-primary rounded-md p-6 py-2.5 font-normal text-white max-md:text-sm"
+      type="button"
+      title="Logout"
     >
       Logout
     </button>

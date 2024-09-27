@@ -47,6 +47,7 @@ export default function Page() {
         </div>
 
         <ButtonWithTimer
+          name="Resend email verification"
           clickFuntion={requestEmail}
           initialTime={TWO_MINUTES_IN_SECONDS}
           initialIsLoading

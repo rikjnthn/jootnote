@@ -12,7 +12,7 @@ const FolderList = ({
 }: FolderListPropsType) => {
   const folders = useFolders();
   return (
-    <div className="hide-scrollbar h-full overflow-y-scroll pt-2.5 md:mt-14">
+    <ul className="hide-scrollbar h-full overflow-y-scroll pt-2.5 md:mt-14">
       {folders.map((folder) => (
         <Folder
           key={folder.id}
@@ -26,7 +26,7 @@ const FolderList = ({
         isInputFolder={isInputFolder}
         setIsInputFolder={setIsInputFolder}
       />
-    </div>
+    </ul>
   );
 };
 

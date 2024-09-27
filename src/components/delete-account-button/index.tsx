@@ -20,7 +20,7 @@ const DeleteAccountButton = () => {
       document.cookie = "pb_auth=null; Expires=" + new Date(-1);
     } catch (e) {
       if (e instanceof ClientResponseError) {
-        console.log("Error: " + e.message);
+        console.error("Error: " + e.message);
       }
     }
   };
@@ -28,6 +28,8 @@ const DeleteAccountButton = () => {
     <button
       onClick={deleteAccount}
       className="btn btn-error rounded-md p-6 py-2.5 font-normal text-white max-md:text-sm"
+      title="Delete account"
+      type="button"
     >
       Delete Account
     </button>

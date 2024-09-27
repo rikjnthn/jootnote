@@ -78,7 +78,7 @@ export default function Page({ params }: { params: { token: string } }) {
             {...register("password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               minLength: {
                 value: 8,
@@ -104,7 +104,7 @@ export default function Page({ params }: { params: { token: string } }) {
             {...register("confirm_password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               validate: {
                 isSameAsPassword: (v) => {

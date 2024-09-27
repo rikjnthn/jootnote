@@ -1,23 +1,8 @@
 import { cookies } from "next/headers";
-import Pocketbase, { ClientResponseError } from "pocketbase";
+import Pocketbase from "pocketbase";
 
 import FileContent from "@/components/file-content";
-
-const getFileContent = async (pb: Pocketbase, fileId: string) => {
-  try {
-    const record = await pb
-      .collection("contents")
-      .getFirstListItem<ContentType>(
-        pb.filter("file.id = {:fileId}", { fileId }),
-      );
-
-    return record;
-  } catch (e) {
-    if (e instanceof ClientResponseError) {
-      console.log("Error: " + e.message);
-    }
-  }
-};
+import getFileContent from "@/util/get-file-content";
 
 export default async function Page({ params }: { params: { fileId: string } }) {
   const pb = new Pocketbase(process.env.API_URL);
@@ -30,10 +15,4 @@ export default async function Page({ params }: { params: { fileId: string } }) {
   };
 
   return <FileContent fileContent={fileContent} />;
-}
-
-interface ContentType {
-  id: string;
-  title: string;
-  content: string;
 }

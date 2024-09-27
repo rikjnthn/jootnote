@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="absolute grid h-full w-full place-items-center">
       <div className="flex flex-col items-center gap-5">
-        <Image src={NotFoundillustration} alt="" />
+        <Image src={NotFoundillustration} alt="" role="presentation" />
 
         <span className="text-lg">The requested resource is not found</span>
 

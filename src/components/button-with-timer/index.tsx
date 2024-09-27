@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { SetStateType } from "@/interface";
 
 const ButtonWithTimer = ({
+  name,
   clickFuntion,
   title,
   initialTime,
@@ -54,7 +55,7 @@ const ButtonWithTimer = ({
       type="button"
       title={isLoading ? "Please wait" : title}
     >
-      {isLoading ? timer : "Resent Verification Email"}
+      {isLoading ? timer : name}
     </button>
   );
 };
@@ -62,8 +63,9 @@ const ButtonWithTimer = ({
 export default ButtonWithTimer;
 
 interface ButtonWithTimerPropsType {
+  name: string;
   title: string;
   initialTime: number;
   initialIsLoading?: boolean;
-  clickFuntion?: (setIsLaoding: SetStateType<boolean>) => void;
+  clickFuntion?: (setIsLoading: SetStateType<boolean>) => void;
 }

@@ -1,24 +1,9 @@
 import Link from "next/link";
-import Pocketbase, { ClientResponseError } from "pocketbase";
 
-const verify = async (token: string) => {
-  const pb = new Pocketbase(process.env.API_URL);
-
-  try {
-    const isVerified = await pb.collection("users").confirmVerification(token);
-
-    return isVerified;
-  } catch (e) {
-    if (e instanceof ClientResponseError) {
-      console.error("Error " + e.message);
-    }
-
-    return false;
-  }
-};
+import verifyEmail from "@/util/verify-email";
 
 const VerifyEmail = async ({ token }: VerifyEmailPropsType) => {
-  const isVerified = await verify(token);
+  const isVerified = await verifyEmail(token, process.env.API_URL);
 
   if (!isVerified) {
     return (

@@ -56,22 +56,22 @@ const ChangeEmailSetting = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        className={clsx("flex flex-col", error.length > 0 ? "gap-7" : "gap-4")}
-      >
-        <Input
-          onChange={handleInput}
-          type="email"
-          error={error}
-          label="Email"
-          value={email}
-        />
+    <form
+      onSubmit={handleSubmit}
+      className={clsx("flex flex-col", error.length > 0 ? "gap-7" : "gap-4")}
+    >
+      <Input
+        onChange={handleInput}
+        type="email"
+        name="email"
+        error={error}
+        label="Email"
+        value={email}
+        placeholder="Email"
+      />
 
-        {isEmailChange && <SubmitButton name="Change" title="Change" />}
-      </form>
-    </div>
+      {isEmailChange && <SubmitButton name="Change" title="Change" />}
+    </form>
   );
 };
 
