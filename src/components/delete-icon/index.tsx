@@ -1,12 +1,6 @@
 import React from "react";
 
-const DeleteIcon = ({
-  onClick,
-  title,
-}: {
-  onClick?: React.MouseEventHandler;
-  title?: string;
-}) => {
+const DeleteIcon = ({ onClick, title }: DeleteIconPropsType) => {
   return (
     <button
       className="flex h-full w-full items-center justify-center"
@@ -33,3 +27,8 @@ const DeleteIcon = ({
 };
 
 export default DeleteIcon;
+
+interface DeleteIconPropsType {
+  onClick?: React.MouseEventHandler;
+  title?: string;
+}

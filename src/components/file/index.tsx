@@ -9,6 +9,7 @@ import EditIcon from "../edit-icon";
 import { usePocketbase } from "@/context/pocketbase-context";
 import { useFoldersDispatch } from "@/context/folder-context";
 import FileEdit from "../file-edit";
+import { useNavigationDispatch } from "@/context/navigation-context";
 
 const File = ({ id, name, folderId }: FilePropsType) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -18,6 +19,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
   const segments = useSelectedLayoutSegments();
   const { pb } = usePocketbase();
   const setFolders = useFoldersDispatch();
+  const { setIsOpenNav } = useNavigationDispatch();
 
   const isFileOpened = segments[1] ? segments[1] === id : false;
 
@@ -60,6 +62,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
   };
 
   const openFile = () => {
+    setIsOpenNav(false);
     router.push(`/note/${id}`);
   };
 
@@ -83,7 +86,7 @@ const File = ({ id, name, folderId }: FilePropsType) => {
           setIsEdit={setIsEdit}
         />
       ) : (
-        <span className="line-clamp-1 md:text-lg">{name} </span>
+        <span className="line-clamp-1 md:text-lg">{name}</span>
       )}
 
       <div className={clsx("file-util flex items-center", { hidden: isEdit })}>

@@ -1,20 +1,46 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
 import BackIcon from "../back-icon";
 import UserSetting from "../user-setting";
-import { SetStateType } from "@/interface";
+import {
+  useNavigation,
+  useNavigationDispatch,
+} from "@/context/navigation-context";
 
-const Setting = ({
-  isOpenSetting,
-  setIsOpenSetting,
-}: {
-  isOpenSetting: boolean;
-  setIsOpenSetting: SetStateType<boolean>;
-}) => {
+const Setting = () => {
+  const settingRef = useRef<HTMLDivElement>(null);
+
+  const { isOpenSetting } = useNavigation();
+  const { setIsOpenSetting } = useNavigationDispatch();
+
+  useEffect(() => {
+    const handleTransitionEnd = (e: Event) => {
+      if (!isOpenSetting) {
+        (e.currentTarget as HTMLDivElement)?.classList.add("invisible");
+      }
+    };
+
+    const handleTransitionStart = (e: Event) => {
+      if (isOpenSetting) {
+        (e.currentTarget as HTMLDivElement)?.classList.remove("invisible");
+      }
+    };
+    const element = settingRef.current;
+
+    element?.addEventListener("transitionstart", handleTransitionStart);
+    element?.addEventListener("transitionend", handleTransitionEnd);
+
+    return () => {
+      element?.removeEventListener("transitionstart", handleTransitionStart);
+      element?.removeEventListener("transitionend", handleTransitionEnd);
+    };
+  }, [isOpenSetting]);
+
   return (
     <div
+      ref={settingRef}
       className={clsx(
         "setting absolute top-0 flex h-full w-full flex-col bg-white md:max-w-md",
         isOpenSetting ? "right-0" : "-right-full",

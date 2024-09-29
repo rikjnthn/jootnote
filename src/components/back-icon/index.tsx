@@ -1,6 +1,6 @@
 import React from "react";
 
-const BackIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
+const BackIcon = ({ onClick }: BackIconPropsType) => {
   return (
     <button
       className="flex h-full w-full items-center justify-center"
@@ -25,3 +25,7 @@ const BackIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
 };
 
 export default BackIcon;
+
+interface BackIconPropsType {
+  onClick?: React.MouseEventHandler;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-const EditIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
+const EditIcon = ({ onClick }: EditIconPropsType) => {
   return (
     <button onClick={onClick} type="button" title="Edit">
       <svg
@@ -20,3 +20,7 @@ const EditIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
 };
 
 export default EditIcon;
+
+interface EditIconPropsType {
+  onClick?: React.MouseEventHandler;
+}

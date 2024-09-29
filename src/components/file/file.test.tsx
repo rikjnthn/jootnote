@@ -48,6 +48,14 @@ jest.mock("@/context/folder-context", () => {
   };
 });
 
+jest.mock("@/context/navigation-context", () => {
+  return {
+    useNavigationDispatch: jest.fn().mockReturnValue({
+      setIsOpenNav: jest.fn(),
+    }),
+  };
+});
+
 describe("File Component", () => {
   afterEach(() => {
     jest.clearAllMocks();
