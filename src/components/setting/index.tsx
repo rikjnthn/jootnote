@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
 import BackIcon from "../back-icon";
@@ -10,29 +10,41 @@ import {
 } from "@/context/navigation-context";
 
 const Setting = () => {
+  const settingRef = useRef<HTMLDivElement>(null);
+
   const { isOpenSetting } = useNavigation();
   const { setIsOpenSetting } = useNavigationDispatch();
 
-  const handleTransitionEnd = (e: React.TransitionEvent) => {
-    if (!isOpenSetting) {
-      e.currentTarget.classList.add("invisible");
-    }
-  };
+  useEffect(() => {
+    const handleTransitionEnd = (e: Event) => {
+      if (!isOpenSetting) {
+        (e.currentTarget as HTMLDivElement)?.classList.add("invisible");
+      }
+    };
 
-  const handleTransitionStart = (e: React.TransitionEvent) => {
-    if (isOpenSetting) {
-      e.currentTarget.classList.remove("invisible");
-    }
-  };
+    const handleTransitionStart = (e: Event) => {
+      if (isOpenSetting) {
+        (e.currentTarget as HTMLDivElement)?.classList.remove("invisible");
+      }
+    };
+    const element = settingRef.current;
+
+    element?.addEventListener("transitionstart", handleTransitionStart);
+    element?.addEventListener("transitionend", handleTransitionEnd);
+
+    return () => {
+      element?.removeEventListener("transitionstart", handleTransitionStart);
+      element?.removeEventListener("transitionend", handleTransitionEnd);
+    };
+  }, [isOpenSetting]);
 
   return (
     <div
+      ref={settingRef}
       className={clsx(
         "setting absolute top-0 flex h-full w-full flex-col bg-white md:max-w-md",
         isOpenSetting ? "right-0" : "-right-full",
       )}
-      onTransitionStart={handleTransitionStart}
-      onTransitionEnd={handleTransitionEnd}
     >
       <div className="flex items-center gap-4 p-5">
         <div className="h-10 w-10 rounded-full hover:bg-neutral-200">

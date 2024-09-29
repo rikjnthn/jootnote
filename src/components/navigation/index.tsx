@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 
 import Logo from "../logo";
@@ -16,6 +16,8 @@ import {
 const Navigation = () => {
   const [isInputFolder, setIsInputFolder] = useState<boolean>(false);
 
+  const navRef = useRef<HTMLDivElement>(null);
+
   const { isOpenNav } = useNavigation();
   const { setIsOpenNav, setIsOpenSetting } = useNavigationDispatch();
 
@@ -28,27 +30,40 @@ const Navigation = () => {
     setIsOpenNav(false);
   };
 
-  const handleTransitionEnd = (e: React.TransitionEvent) => {
-    if (!isOpenNav) {
-      e.currentTarget.classList.add("max-md:invisible");
-    }
-  };
+  useEffect(() => {
+    const handleTransitionEnd = (e: Event) => {
+      if (!isOpenNav) {
+        (e.currentTarget as HTMLDivElement)?.classList.add("max-md:invisible");
+      }
+    };
 
-  const handleTransitionStart = (e: React.TransitionEvent) => {
-    if (isOpenNav) {
-      e.currentTarget.classList.remove("max-md:invisible");
-    }
-  };
+    const handleTransitionStart = (e: Event) => {
+      if (isOpenNav) {
+        (e.currentTarget as HTMLDivElement)?.classList.remove(
+          "max-md:invisible",
+        );
+      }
+    };
+
+    const element = navRef.current;
+
+    element?.addEventListener("transitionstart", handleTransitionStart);
+    element?.addEventListener("transitionend", handleTransitionEnd);
+
+    return () => {
+      element?.removeEventListener("transitionstart", handleTransitionStart);
+      element?.removeEventListener("transitionend", handleTransitionEnd);
+    };
+  }, [isOpenNav]);
 
   return (
     <>
       <nav
+        ref={navRef}
         className={clsx(
           "navigation fixed top-0 z-10 flex h-full w-full flex-col border-r border-r-gray-lightest bg-white py-5 xs:w-3/4 md:left-0 md:w-1/3 md:py-14 lg:max-w-80",
           isOpenNav ? "left-0" : "max-md:-left-full",
         )}
-        onTransitionEnd={handleTransitionEnd}
-        onTransitionStart={handleTransitionStart}
       >
         <div className="flex w-full items-center justify-between px-5 md:pt-3">
           <Logo />
