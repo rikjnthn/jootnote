@@ -1,13 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-const ArrowIcon = ({
-  isOpen,
-  onClick,
-}: {
-  isOpen: boolean;
-  onClick?: React.MouseEventHandler;
-}) => {
+const ArrowIcon = ({ isOpen, onClick }: ArrowIconPropsType) => {
   return (
     <button onClick={onClick} type="button" title="Open folder">
       <svg
@@ -32,3 +26,8 @@ const ArrowIcon = ({
 };
 
 export default ArrowIcon;
+
+interface ArrowIconPropsType {
+  isOpen: boolean;
+  onClick?: React.MouseEventHandler;
+}

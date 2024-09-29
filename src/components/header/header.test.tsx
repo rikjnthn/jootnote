@@ -13,6 +13,14 @@ function MockSetting() {
 jest.mock("@/components/navigation", () => MockNavigation);
 jest.mock("@/components/setting", () => MockSetting);
 
+jest.mock("@/context/navigation-context", () => {
+  return {
+    useNavigationDispatch: jest.fn().mockReturnValue({
+      setIsOpenNav: jest.fn(),
+    }),
+  };
+});
+
 describe("Header Component", () => {
   it("should render correctly", () => {
     const { container } = render(<Header />);

@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
 import Hamburger from "../hamburger";
 import Navigation from "../navigation";
 import Setting from "../setting";
+import { useNavigationDispatch } from "@/context/navigation-context";
 
 const Header = () => {
-  const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
-  const [isOpenSetting, setIsOpenSetting] = useState<boolean>(false);
+  const { setIsOpenNav } = useNavigationDispatch();
 
   return (
     <>
@@ -18,16 +18,9 @@ const Header = () => {
         </div>
       </header>
 
-      <Navigation
-        isOpenNav={isOpenNav}
-        setIsOpenNav={setIsOpenNav}
-        setIsOpenSetting={setIsOpenSetting}
-      />
+      <Navigation />
 
-      <Setting
-        isOpenSetting={isOpenSetting}
-        setIsOpenSetting={setIsOpenSetting}
-      />
+      <Setting />
     </>
   );
 };

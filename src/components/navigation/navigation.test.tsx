@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import Navigation from ".";
-import userEvent from "@testing-library/user-event";
+import { useNavigation } from "@/context/navigation-context";
 
 function MockLogo() {
   return <div>Logo</div>;
@@ -28,19 +29,21 @@ jest.mock("@/context/folder-context", () => {
   };
 });
 
+jest.mock("@/context/navigation-context", () => {
+  return {
+    useNavigation: jest.fn().mockReturnValue({
+      isOpenNav: false,
+    }),
+    useNavigationDispatch: jest.fn().mockReturnValue({
+      setIsOpenNav: jest.fn(),
+      setIsOpenSetting: jest.fn(),
+    }),
+  };
+});
+
 describe("Navigation Component", () => {
   it("should render correctly", () => {
-    const mockIsOpenNav = false;
-    const mockSetIsOpenNav = jest.fn();
-    const mockSetIsOpenSetting = jest.fn();
-
-    const { container } = render(
-      <Navigation
-        isOpenNav={mockIsOpenNav}
-        setIsOpenNav={mockSetIsOpenNav}
-        setIsOpenSetting={mockSetIsOpenSetting}
-      />,
-    );
+    const { container } = render(<Navigation />);
 
     const nav = container.querySelector("nav");
     expect(nav).toBeInTheDocument();
@@ -62,17 +65,7 @@ describe("Navigation Component", () => {
   });
 
   it("should hidden overlay and close nav when closed", () => {
-    const mockIsOpenNav = false;
-    const mockSetIsOpenNav = jest.fn();
-    const mockSetIsOpenSetting = jest.fn();
-
-    const { container } = render(
-      <Navigation
-        isOpenNav={mockIsOpenNav}
-        setIsOpenNav={mockSetIsOpenNav}
-        setIsOpenSetting={mockSetIsOpenSetting}
-      />,
-    );
+    const { container } = render(<Navigation />);
 
     const nav = container.querySelector("nav");
     expect(nav?.classList.contains("max-md:-left-full")).toBeTruthy();
@@ -82,17 +75,10 @@ describe("Navigation Component", () => {
   });
 
   it("should display overlay and open nav when open", () => {
-    const mockIsOpenNav = true;
-    const mockSetIsOpenNav = jest.fn();
-    const mockSetIsOpenSetting = jest.fn();
-
-    const { container } = render(
-      <Navigation
-        isOpenNav={mockIsOpenNav}
-        setIsOpenNav={mockSetIsOpenNav}
-        setIsOpenSetting={mockSetIsOpenSetting}
-      />,
-    );
+    (useNavigation as jest.Mock).mockReturnValue({
+      isOpenNav: true,
+    });
+    const { container } = render(<Navigation />);
 
     const nav = container.querySelector("nav");
     expect(nav?.classList.contains("left-0")).toBeTruthy();
@@ -102,17 +88,10 @@ describe("Navigation Component", () => {
   });
 
   it("should close nav if close button is clicked", async () => {
-    const mockIsOpenNav = true;
-    const mockSetIsOpenNav = jest.fn();
-    const mockSetIsOpenSetting = jest.fn();
-
-    const { container } = render(
-      <Navigation
-        isOpenNav={mockIsOpenNav}
-        setIsOpenNav={mockSetIsOpenNav}
-        setIsOpenSetting={mockSetIsOpenSetting}
-      />,
-    );
+    (useNavigation as jest.Mock).mockReturnValue({
+      isOpenNav: true,
+    });
+    const { container } = render(<Navigation />);
 
     const nav = container.querySelector("nav");
     expect(nav?.classList.contains("max-md:-left-full")).toBeFalsy();
@@ -121,22 +100,16 @@ describe("Navigation Component", () => {
 
     await userEvent.click(closeButton);
 
+    (useNavigation as jest.Mock).mockReturnValue({
+      isOpenNav: true,
+    });
+
     const darkOverlay = container.querySelector(".dark_overlay");
     expect(darkOverlay?.classList.contains("hidden")).toBeFalsy();
   });
 
   it("should close nav if setting button is clicked", async () => {
-    const mockIsOpenNav = true;
-    const mockSetIsOpenNav = jest.fn();
-    const mockSetIsOpenSetting = jest.fn();
-
-    const { container } = render(
-      <Navigation
-        isOpenNav={mockIsOpenNav}
-        setIsOpenNav={mockSetIsOpenNav}
-        setIsOpenSetting={mockSetIsOpenSetting}
-      />,
-    );
+    const { container } = render(<Navigation />);
 
     const nav = container.querySelector("nav");
     expect(nav?.classList.contains("max-md:-left-full")).toBeFalsy();
