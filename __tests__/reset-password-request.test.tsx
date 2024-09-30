@@ -44,8 +44,8 @@ describe("RequestPasswordReset Page Component", () => {
     const backButton = screen.getByTitle("Back");
     expect(backButton).toBeInTheDocument();
 
-    const resendButton = screen.getByText("Button with timer");
-    expect(resendButton).toBeInTheDocument();
+    const resendButton = screen.queryByText("Button with timer");
+    expect(resendButton).not.toBeInTheDocument();
 
     const requestResetWrapper = heading.parentElement;
     expect(requestResetWrapper?.classList.contains("hidden")).toBeFalsy();
@@ -102,5 +102,8 @@ describe("RequestPasswordReset Page Component", () => {
     const requestInformationWrapper =
       requestInformationHeading.parentElement?.parentElement;
     expect(requestInformationWrapper?.classList.contains("hidden")).toBeFalsy();
+
+    const resendButton = screen.getByText("Button with timer");
+    expect(resendButton).toBeInTheDocument();
   });
 });
