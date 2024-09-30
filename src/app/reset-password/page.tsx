@@ -108,17 +108,19 @@ export default function Page() {
             Back
           </button>
 
-          <ButtonWithTimer
-            clickFuntion={async (setIsLoading) => {
-              await requestReset({ email: getValues("email") });
+          {isRequesting && (
+            <ButtonWithTimer
+              clickFuntion={async (setIsLoading) => {
+                await requestReset({ email: getValues("email") });
 
-              setIsLoading(true);
-            }}
-            name="Resend reset password"
-            title="Resend reset password email"
-            initialTime={TWO_MINUTES_IN_SECONDS}
-            initialIsLoading
-          />
+                setIsLoading(true);
+              }}
+              name="Resend reset password"
+              title="Resend reset password email"
+              initialTime={TWO_MINUTES_IN_SECONDS}
+              initialIsLoading
+            />
+          )}
         </div>
       </div>
     </div>

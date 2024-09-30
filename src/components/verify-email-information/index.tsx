@@ -9,6 +9,7 @@ import { ClientResponseError } from "pocketbase";
 
 const VerifyEmailInformation = ({
   email,
+  isVerifying,
   setIsVerifying,
 }: VerifyEmailInformationPropsType) => {
   const { pb } = usePocketbase();
@@ -46,13 +47,15 @@ const VerifyEmailInformation = ({
           Back
         </button>
 
-        <ButtonWithTimer
-          name="Resend email verification"
-          clickFuntion={requestVerification}
-          title="Resent verification email"
-          initialTime={TWO_MINUTES_IN_SECONDS}
-          initialIsLoading
-        />
+        {isVerifying && (
+          <ButtonWithTimer
+            name="Resend email verification"
+            clickFuntion={requestVerification}
+            title="Resent verification email"
+            initialTime={TWO_MINUTES_IN_SECONDS}
+            initialIsLoading
+          />
+        )}
       </div>
     </div>
   );
@@ -62,5 +65,6 @@ export default VerifyEmailInformation;
 
 interface VerifyEmailInformationPropsType {
   email: string;
+  isVerifying: boolean;
   setIsVerifying: SetStateType<boolean>;
 }

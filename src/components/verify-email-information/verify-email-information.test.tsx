@@ -21,10 +21,12 @@ jest.mock("@/context/pocketbase-context", () => {
 
 describe("VerifyEmailInformation Component", () => {
   it("should render correctly", () => {
+    const mockIsVerifying = false;
     const mockSetIsVerifying = jest.fn();
 
-    render(
+    const { rerender } = render(
       <VerifyEmailInformation
+        isVerifying={mockIsVerifying}
         email="email@example.com"
         setIsVerifying={mockSetIsVerifying}
       />,
@@ -39,16 +41,29 @@ describe("VerifyEmailInformation Component", () => {
     const backButton = screen.getByText("Back");
     expect(backButton).toBeInTheDocument();
 
-    const buttonWithTimer = screen.getByText("Button with timer");
-    expect(buttonWithTimer).toBeInTheDocument();
+    const buttonWithTimer = screen.queryByText("Button with timer");
+    expect(buttonWithTimer).not.toBeInTheDocument();
+
+    // mock user has create account and is in verifying process (which they request verification email)
+    rerender(
+      <VerifyEmailInformation
+        isVerifying={!mockIsVerifying}
+        email="email@example.com"
+        setIsVerifying={mockSetIsVerifying}
+      />,
+    );
+    const buttonWithTimerPresent = screen.getByText("Button with timer");
+    expect(buttonWithTimerPresent).toBeInTheDocument();
   });
 
   it("should invoked setIsVerifying with 'false' as argument when user click back button", async () => {
+    const mockIsVerifying = false;
     const mockSetIsVerifying = jest.fn();
 
     render(
       <VerifyEmailInformation
         email="email@example.com"
+        isVerifying={mockIsVerifying}
         setIsVerifying={mockSetIsVerifying}
       />,
     );

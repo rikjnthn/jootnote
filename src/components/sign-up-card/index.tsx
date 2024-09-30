@@ -180,6 +180,7 @@ const SignUpCard = () => {
       <div className={clsx({ hidden: !isVerifying })}>
         <VerifyEmailInformation
           email={getValues("email")}
+          isVerifying={isVerifying}
           setIsVerifying={setIsVerifying}
         />
       </div>
