@@ -2,6 +2,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Pocketbase from "pocketbase";
 
+import Header from "@/components/header";
+import { NavigationProvider } from "@/context/navigation-context";
+
 export default async function Layout({
   children,
 }: {
@@ -33,5 +36,15 @@ export default async function Layout({
     redirect("/verify-email");
   }
 
-  return children;
+  return (
+    <NavigationProvider>
+      <div className="hide-scrollbar relative flex h-full flex-col overflow-x-hidden md:flex">
+        <Header />
+
+        <div className="hide-scrollbar file-content-container ml-auto h-full">
+          {children}
+        </div>
+      </div>
+    </NavigationProvider>
+  );
 }
