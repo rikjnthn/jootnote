@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import Input from "../input";
 import SubmitButton from "../submit-button";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { ClientResponseError } from "pocketbase";
-import clsx from "clsx";
+import { useNavigation } from "@/context/navigation-context";
 
 const UserDataSetting = () => {
   const { pb } = usePocketbase();
@@ -17,6 +18,13 @@ const UserDataSetting = () => {
   const [error, setError] = useState<string>("");
 
   const user = pb.authStore.model;
+
+  const { isOpenSetting } = useNavigation();
+
+  useEffect(() => {
+    setUsername(pb.authStore.model?.username);
+    setError("");
+  }, [isOpenSetting, pb]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputUsername = e.currentTarget.value;
@@ -57,9 +65,11 @@ const UserDataSetting = () => {
 
     setIsUsernameChange(false);
     try {
-      await pb.collection("users").update(user?.id, {
-        username,
-      });
+      const newUserData = await pb
+        .collection("users")
+        .update(user?.id, { username });
+
+      pb.authStore.save(pb.authStore.token, newUserData);
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.error("Error: " + e.message);

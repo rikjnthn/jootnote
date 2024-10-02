@@ -18,6 +18,14 @@ jest.mock("@/context/pocketbase-context", () => {
   };
 });
 
+jest.mock("@/context/navigation-context", () => {
+  return {
+    useNavigation: jest.fn().mockReturnValue({
+      isOpenNav: true,
+    }),
+  };
+});
+
 describe("ChangeEmailSetting Component", () => {
   it("should render correctly", () => {
     const { container } = render(<ChangeEmailSetting />);

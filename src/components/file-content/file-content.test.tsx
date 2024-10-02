@@ -15,6 +15,14 @@ jest.mock("@/context/pocketbase-context", () => {
   };
 });
 
+jest.mock("next/navigation", () => {
+  return {
+    useRouter: jest.fn().mockReturnValue({
+      refresh: jest.fn(),
+    }),
+  };
+});
+
 describe("FileContent Component", () => {
   it("should render correctly", () => {
     const mockFileContent = {
