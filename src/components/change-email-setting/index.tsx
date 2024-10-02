@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import Input from "../input";
 import SubmitButton from "../submit-button";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { ClientResponseError } from "pocketbase";
+import { useNavigation } from "@/context/navigation-context";
 
 const ChangeEmailSetting = () => {
   const { pb } = usePocketbase();
@@ -16,6 +17,13 @@ const ChangeEmailSetting = () => {
   const [error, setError] = useState<string>("");
 
   const user = pb.authStore.model;
+
+  const { isOpenSetting } = useNavigation();
+
+  useEffect(() => {
+    setEmail(pb.authStore.model?.email);
+    setError("");
+  }, [isOpenSetting, pb]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputEmail = e.currentTarget.value;
@@ -50,7 +58,7 @@ const ChangeEmailSetting = () => {
       if (e instanceof ClientResponseError) {
         console.log("Error: " + e.message);
 
-        setError(e.response.data.email);
+        setError(e.response.data.newEmail.message);
       }
     }
   };

@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import { ClientResponseError } from "pocketbase";
 
@@ -21,6 +22,7 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
+  const router = useRouter();
   const { pb } = usePocketbase();
 
   useEffect(() => {
@@ -52,6 +54,7 @@ const FileContent = ({ fileContent }: FileContentPropsType) => {
         content: contentRef.current?.value,
       });
       setIsContentChange(false);
+      router.refresh();
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.error("Error: " + e.message);
