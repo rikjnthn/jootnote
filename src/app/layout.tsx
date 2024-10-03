@@ -17,10 +17,10 @@ export default function RootLayout({
 }>) {
   const API_URL = process.env.API_URL;
 
-  const nonce = headers().get("X-nonce") ?? "";
+  headers();
 
   return (
-    <html nonce={nonce} lang="en">
+    <html lang="en">
       <PocketbaseProvider API_URL={API_URL}>
         <body className={roboto.className}>{children}</body>
       </PocketbaseProvider>
