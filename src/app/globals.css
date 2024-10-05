@@ -34,8 +34,18 @@ body {
   transition: inset 500ms;
 }
 
+.spin {
+  animation: spin 500ms linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    rotate: 360deg;
+  }
+}
+
 .title-textarea,
-.context-textarea {
+.content-textarea {
   width: 100%;
   overflow: hidden;
   letter-spacing: 0.025rem;
@@ -44,7 +54,7 @@ body {
 }
 
 .title-textarea:focus,
-.context-textarea:focus {
+.content-textarea:focus {
   outline: none;
 }
 
@@ -56,12 +66,22 @@ body {
   height: 2rem;
 }
 
-.context-textarea {
+.content-textarea {
   font-size: 0.875rem;
   line-height: 1.5rem;
   min-height: 3.5rem;
   height: 3.5rem;
   padding-top: 2rem;
+}
+
+.file-content-container {
+  width: 100%;
+}
+
+.input-error-message {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  width: 100%;
 }
 
 @media screen and (min-width: 768px) {
@@ -74,12 +94,22 @@ body {
     padding-block: 1rem;
   }
 
-  .context-textarea {
+  .content-textarea {
     font-size: 1rem;
     line-height: 1.75rem;
     padding-top: 3.5rem;
     min-height: 5.25rem;
     height: 5.25rem;
+  }
+
+  .file-content-container {
+    width: calc(2 * 100% / 3);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .file-content-container {
+    width: calc(100% - 20rem);
   }
 }
 

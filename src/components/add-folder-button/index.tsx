@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const AddFolderButton = ({
@@ -8,7 +9,7 @@ const AddFolderButton = ({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-5 py-4"
+      className="flex w-full items-center gap-5 px-5 py-4 hover:bg-neutral-200 active:bg-neutral-400"
       type="button"
       title="Create new folder"
     >

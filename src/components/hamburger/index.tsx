@@ -1,8 +1,13 @@
 import React from "react";
 
-const Hamburger = ({ onClick }: { onClick: React.MouseEventHandler }) => {
+const Hamburger = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
   return (
-    <button onClick={onClick} type="button" title="Hamburger">
+    <button
+      className="rounded-full hover:bg-neutral-200"
+      onClick={onClick}
+      type="button"
+      title="Hamburger"
+    >
       <svg
         width="40"
         height="40"

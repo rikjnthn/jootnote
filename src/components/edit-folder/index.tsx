@@ -1,10 +1,10 @@
 import React, { FormEvent, useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import { FolderDataType, SetStateType } from "@/interface";
-import { useFolder } from "@/context/folder-context";
+import { useFolders, useFoldersDispatch } from "@/context/folder-context";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { ClientResponseError } from "pocketbase";
 
 const EditFolder = ({
   folderId,
@@ -16,7 +16,8 @@ const EditFolder = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const folders = useFolders();
+  const setFolders = useFoldersDispatch();
 
   const updateFolder = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -65,13 +66,13 @@ const EditFolder = ({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (newName === folderName) {
-      setIsEdit(false);
+    if (newName.length === 0) {
+      setError("Please input folder name");
       return;
     }
 
-    if (newName.length === 0) {
-      setError("Please input folder name");
+    if (newName === folderName) {
+      setIsEdit(false);
       return;
     }
 
@@ -81,6 +82,11 @@ const EditFolder = ({
   const handleBlur = () => {
     if (newName === folderName) {
       setIsEdit(false);
+      return;
+    }
+
+    if (newName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
       return;
     }
 
@@ -104,14 +110,19 @@ const EditFolder = ({
       return;
     }
 
-    const foundFolder = folders.find((folder) => folder.name === inputName);
-    if (foundFolder && foundFolder.id !== folderId) {
-      setError("Folder name already exist");
+    if (inputName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
       return;
     }
 
     if (inputName.length === 0) {
       setError("Please input folder name");
+      return;
+    }
+
+    const foundFolder = folders.find((folder) => folder.name === inputName);
+    if (foundFolder && foundFolder.id !== folderId) {
+      setError("Folder name already exist");
       return;
     }
   };
@@ -120,7 +131,7 @@ const EditFolder = ({
     <form
       onClick={(e) => e.stopPropagation()}
       onSubmit={handleSubmit}
-      className="relative w-full"
+      className="relative w-full border"
     >
       <input
         onInput={handleInput}
@@ -136,7 +147,7 @@ const EditFolder = ({
         aria-invalid={error.length > 0}
       />
 
-      <div className="absolute top-7 max-w-64 bg-white text-sm text-error md:top-8">
+      <div className="input-error-message max-w-64 bg-white text-sm text-error">
         {error}
       </div>
     </form>

@@ -11,7 +11,7 @@ import SubmitButton from "@/components/submit-button";
 import Input from "@/components/input";
 
 const LoginCard = () => {
-  const [isLoginError, setIsLoginError] = useState<boolean>(false);
+  const [isError, setisError] = useState<boolean>(false);
 
   const {
     register,
@@ -23,11 +23,20 @@ const LoginCard = () => {
   const { pb } = usePocketbase();
 
   const login = async (data: LoginDataType) => {
-    setIsLoginError(false);
+    setisError(false);
     try {
-      await pb
+      const authData = await pb
         .collection("users")
         .authWithPassword(data.email_or_username, data.password);
+
+      if (!authData.record.verified) {
+        await pb
+          .collection("users")
+          .requestVerification(authData.record?.email);
+
+        router.push("/verify-email");
+        return;
+      }
 
       const authAsCookie = pb.authStore.exportToCookie({
         httpOnly: false,
@@ -39,7 +48,7 @@ const LoginCard = () => {
       if (e instanceof ClientResponseError) {
         console.error("Error " + e.message);
 
-        setIsLoginError(true);
+        setisError(true);
       }
     }
   };
@@ -49,10 +58,10 @@ const LoginCard = () => {
       <div
         className={clsx(
           "flex w-full max-w-md flex-col items-center gap-16 rounded-md border p-10",
-          isLoginError ? "border-error" : "border-gray-light",
+          isError ? "border-error" : "border-gray-light",
         )}
       >
-        <div className="text-3xl font-bold md:text-5xl">Login</div>
+        <div className="text-3xl font-bold md:text-4xl">Login</div>
         <form
           onSubmit={handleSubmit(login)}
           className="flex w-full flex-col gap-12"
@@ -87,7 +96,7 @@ const LoginCard = () => {
             {...register("password", {
               required: {
                 value: true,
-                message: "Please insert your password",
+                message: "Please input your password",
               },
               minLength: {
                 value: 8,
@@ -95,7 +104,7 @@ const LoginCard = () => {
               },
               maxLength: {
                 value: 64,
-                message: "Password should not consist more than 64 letters",
+                message: "Password should not be more than 64 letters",
               },
               validate: {
                 isNotContainSpace: (v) => {
@@ -105,7 +114,7 @@ const LoginCard = () => {
             })}
           />
 
-          {isLoginError && <div className="text-error">Failed to login</div>}
+          {isError && <div className="text-error">Failed to login</div>}
 
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2 max-md:text-sm">

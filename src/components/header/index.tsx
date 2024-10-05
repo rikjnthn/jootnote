@@ -1,21 +1,14 @@
 "use client";
-import { usePathname } from "next/navigation";
-import React, { useState } from "react";
-import clsx from "clsx";
+import React from "react";
 
-import LockIcon from "../lock-icon";
 import Hamburger from "../hamburger";
-import BinIcon from "../bin-icon";
 import Navigation from "../navigation";
 import Setting from "../setting";
+import { useNavigationDispatch } from "@/context/navigation-context";
 
 const Header = () => {
-  const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
-  const [isOpenSetting, setIsOpenSetting] = useState<boolean>(false);
+  const { setIsOpenNav } = useNavigationDispatch();
 
-  const pathname = usePathname();
-
-  const isHome = pathname === "/";
   return (
     <>
       <header className="flex justify-between p-5 md:hidden">
@@ -23,22 +16,11 @@ const Header = () => {
           <Hamburger onClick={() => setIsOpenNav(true)} />
           <span className="text-2xl font-medium">Notes</span>
         </div>
-        <div className={clsx(isHome ? "hidden" : "flex")}>
-          <LockIcon />
-          <BinIcon />
-        </div>
       </header>
 
-      <Navigation
-        isOpenNav={isOpenNav}
-        setIsOpenNav={setIsOpenNav}
-        setIsOpenSetting={setIsOpenSetting}
-      />
+      <Navigation />
 
-      <Setting
-        isOpenSetting={isOpenSetting}
-        setIsOpenSetting={setIsOpenSetting}
-      />
+      <Setting />
     </>
   );
 };

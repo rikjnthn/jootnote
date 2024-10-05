@@ -1,8 +1,13 @@
 import React from "react";
 
-const BackIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
+const BackIcon = ({ onClick }: BackIconPropsType) => {
   return (
-    <button onClick={onClick} type="button" title="Back">
+    <button
+      className="flex h-full w-full items-center justify-center"
+      onClick={onClick}
+      type="button"
+      title="Back"
+    >
       <svg
         width="30"
         height="30"
@@ -20,3 +25,7 @@ const BackIcon = ({ onClick }: { onClick?: React.MouseEventHandler }) => {
 };
 
 export default BackIcon;
+
+interface BackIconPropsType {
+  onClick?: React.MouseEventHandler;
+}

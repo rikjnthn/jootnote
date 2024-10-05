@@ -1,10 +1,10 @@
 import React, { FormEvent, useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import { FolderDataType, SetStateType } from "@/interface";
-import { useFolder } from "@/context/folder-context";
+import { useFolders, useFoldersDispatch } from "@/context/folder-context";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { ClientResponseError } from "pocketbase";
 
 const EditFile = ({
   fileId,
@@ -17,7 +17,8 @@ const EditFile = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const folders = useFolders();
+  const setFolders = useFoldersDispatch();
 
   const updateFolder = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -78,13 +79,13 @@ const EditFile = ({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (newName === fileName) {
-      setIsEdit(false);
+    if (newName.length === 0) {
+      setError("Please input folder name");
       return;
     }
 
-    if (newName.length === 0) {
-      setError("Please input folder name");
+    if (newName === fileName) {
+      setIsEdit(false);
       return;
     }
 
@@ -94,6 +95,11 @@ const EditFile = ({
   const handleBlur = () => {
     if (newName === fileName) {
       setIsEdit(false);
+      return;
+    }
+
+    if (newName.length > 256) {
+      setError("File name should not exceed 256 characters");
       return;
     }
 
@@ -113,6 +119,11 @@ const EditFile = ({
 
     if (inputName.length === 0) {
       setError("Please input file name");
+      return;
+    }
+
+    if (inputName.length > 256) {
+      setError("File name should not exceed 256 characters");
       return;
     }
 
@@ -144,7 +155,7 @@ const EditFile = ({
         onInput={handleInput}
         onBlur={handleBlur}
         className={clsx(
-          "input h-fit w-full rounded-none p-0 font-medium aria-[invalid=true]:input-error focus:border-none md:text-lg",
+          "input h-fit w-full rounded-none px-0 py-1 font-medium aria-[invalid=true]:input-error focus:border-none md:text-lg",
           { "opacity-70": isLoading },
         )}
         type="text"
@@ -154,7 +165,7 @@ const EditFile = ({
         aria-invalid={error.length > 0}
       />
 
-      <div className="absolute top-7 max-w-64 bg-white text-sm text-error md:top-8">
+      <div className="input-error-message bg-white text-sm text-error">
         {error}
       </div>
     </form>

@@ -7,7 +7,7 @@ import { usePocketbase } from "@/context/pocketbase-context";
 import Input from "../input";
 import ArrowIcon from "../arrow-icon";
 import { FolderDataType, FolderType, SetStateType } from "@/interface";
-import { useFolder } from "@/context/folder-context";
+import { useFolders, useFoldersDispatch } from "@/context/folder-context";
 
 const FolderInput = ({
   isInputFolder,
@@ -18,7 +18,9 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const folders = useFolders();
+  const setFolders = useFoldersDispatch();
+
   const userId = pb.authStore.model?.id;
 
   const createFolder = async (data: FolderDataType) => {
@@ -67,9 +69,19 @@ const FolderInput = ({
     setName(inputName);
     setError("");
 
+    if (inputName.length === 0) {
+      setError("Please input folder name");
+      return;
+    }
+
     //check if input name contain "<" or ">"
     if (/[<>]/.test(inputName)) {
       setError("Folder name is not valid");
+      return;
+    }
+
+    if (inputName.length > 256) {
+      setError("Folder name should not exceed 256 characters");
       return;
     }
 
@@ -82,6 +94,11 @@ const FolderInput = ({
   const handleOnBlur = async () => {
     if (isLoading) return;
 
+    if (name.length > 256) {
+      setError("Folder name should not exceed 256 characters");
+      return;
+    }
+
     if (name.length === 0) {
       setIsInputFolder(false);
       return;
@@ -92,7 +109,7 @@ const FolderInput = ({
 
   return (
     <>
-      <div className={clsx(isLoading ? "py-2.5 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "py-2.5 opacity-50" : "hidden", "px-5")}>
         <div className="flex items-center">
           <ArrowIcon isOpen={false} />
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
@@ -100,7 +117,7 @@ const FolderInput = ({
       </div>
 
       {isInputFolder && !isLoading ? (
-        <form onSubmit={handleSubmit} className="ml-2">
+        <form onSubmit={handleSubmit} className="mx-5 ml-7">
           <Input
             onChange={handleInput}
             onBlur={handleOnBlur}

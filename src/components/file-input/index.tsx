@@ -4,9 +4,8 @@ import { ClientResponseError } from "pocketbase";
 import clsx from "clsx";
 
 import { usePocketbase } from "@/context/pocketbase-context";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import Input from "../input";
-import ArrowIcon from "../arrow-icon";
 import {
   FileType,
   FolderDataType,
@@ -14,7 +13,8 @@ import {
   SetStateType,
 } from "@/interface";
 
-const FolderInput = ({
+const FileInput = ({
+  files,
   folderId,
   isInputFile,
   setIsInputFile,
@@ -24,7 +24,7 @@ const FolderInput = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { pb } = usePocketbase();
-  const { folders, setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
 
   const createFile = async (data: FolderDataType) => {
     if (error.length > 0) return;
@@ -35,6 +35,10 @@ const FolderInput = ({
       const record = await pb.collection("files").create<FileType>({
         name: data.name,
         folder: folderId,
+      });
+
+      await pb.collection("contents").create({
+        file: record.id,
       });
 
       setFolders((prev) => {
@@ -80,19 +84,27 @@ const FolderInput = ({
     setName(inputName);
     setError("");
 
-    //check if input name contain "<" or ">"
-    if (/[<>]/.test(inputName)) {
-      setError("Folder name is not valid");
+    if (inputName.length === 0) {
+      setError("Please input file name");
       return;
     }
 
-    folders.forEach((folder) => {
-      const foundFile = folder.files.find((file) => file.name === inputName);
+    //check if input name contain "<" or ">"
+    if (/[<>]/.test(inputName)) {
+      setError("File name is not valid");
+      return;
+    }
 
-      if (foundFile) {
-        setError("Folder name already exist");
-      }
-    });
+    if (inputName.length > 256) {
+      setError("File name should not exceed 256 characters");
+      return;
+    }
+
+    const foundFile = files.find((file) => file.name === inputName);
+
+    if (foundFile) {
+      setError("File name already exist");
+    }
   };
 
   const handleOnBlur = async () => {
@@ -103,20 +115,24 @@ const FolderInput = ({
       return;
     }
 
+    if (name.length > 256) {
+      setError("File name should not exceed 256 characters");
+      return;
+    }
+
     createFile({ name });
   };
 
   return (
     <>
-      <div className={clsx(isLoading ? "py-2.5 pl-8 opacity-50" : "hidden")}>
+      <div className={clsx(isLoading ? "py-2.5 pl-13 opacity-50" : "hidden")}>
         <div className="flex items-center">
-          <ArrowIcon isOpen={false} />
           <span className="line-clamp-1 font-medium md:text-lg">{name}</span>
         </div>
       </div>
 
       {isInputFile && !isLoading ? (
-        <form onSubmit={handleSubmit} className="ml-2 pl-8">
+        <form onSubmit={handleSubmit} className="ml-13 mr-5">
           <Input
             onChange={handleInput}
             onBlur={handleOnBlur}
@@ -133,9 +149,10 @@ const FolderInput = ({
   );
 };
 
-export default FolderInput;
+export default FileInput;
 
 interface FileInputPropsType {
+  files: FileType[];
   folderId: string;
   isInputFile: boolean;
   setIsInputFile: SetStateType<boolean>;

@@ -1,14 +1,13 @@
 import React from "react";
 
-const DeleteIcon = ({
-  onClick,
-  title,
-}: {
-  onClick?: React.MouseEventHandler;
-  title?: string;
-}) => {
+const DeleteIcon = ({ onClick, title }: DeleteIconPropsType) => {
   return (
-    <button onClick={onClick} type="button" title={title}>
+    <button
+      className="flex h-full w-full items-center justify-center"
+      onClick={onClick}
+      type="button"
+      title={title}
+    >
       <svg
         width="30"
         height="30"
@@ -28,3 +27,8 @@ const DeleteIcon = ({
 };
 
 export default DeleteIcon;
+
+interface DeleteIconPropsType {
+  onClick?: React.MouseEventHandler;
+  title?: string;
+}

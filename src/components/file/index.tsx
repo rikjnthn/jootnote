@@ -1,19 +1,27 @@
 "use client";
+import { useRouter, useSelectedLayoutSegments } from "next/navigation";
 import React, { useState } from "react";
 import clsx from "clsx";
+import { ClientResponseError } from "pocketbase";
 
 import DeleteIcon from "../delete-icon";
 import EditIcon from "../edit-icon";
 import { usePocketbase } from "@/context/pocketbase-context";
-import { useFolder } from "@/context/folder-context";
+import { useFoldersDispatch } from "@/context/folder-context";
 import FileEdit from "../file-edit";
+import { useNavigationDispatch } from "@/context/navigation-context";
 
 const File = ({ id, name, folderId }: FilePropsType) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
 
+  const router = useRouter();
+  const segments = useSelectedLayoutSegments();
   const { pb } = usePocketbase();
-  const { setFolders } = useFolder();
+  const setFolders = useFoldersDispatch();
+  const { setIsOpenNav } = useNavigationDispatch();
+
+  const isFileOpened = segments[1] ? segments[1] === id : false;
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -35,8 +43,15 @@ const File = ({ id, name, folderId }: FilePropsType) => {
         return newFolders;
       });
     } catch (e) {
+      if (e instanceof ClientResponseError) {
+        console.error("Error: " + e.message);
+      }
     } finally {
       setIsLoadingDelete(false);
+
+      if (isFileOpened) {
+        router.push("/");
+      }
     }
   };
 
@@ -46,11 +61,22 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     setIsEdit(true);
   };
 
+  const openFile = () => {
+    setIsOpenNav(false);
+    router.push(`/note/${id}`);
+  };
+
   return (
     <div
-      className={clsx("file flex justify-between py-2 pl-8", {
-        hidden: isLoadingDelete,
-      })}
+      onClick={openFile}
+      className={clsx(
+        "file flex items-center justify-between py-2 pl-13 pr-5 hover:bg-neutral-200 active:bg-neutral-400",
+        {
+          hidden: isLoadingDelete,
+          "bg-neutral-300": isFileOpened,
+        },
+      )}
+      title={name}
     >
       {isEdit ? (
         <FileEdit
@@ -60,10 +86,10 @@ const File = ({ id, name, folderId }: FilePropsType) => {
           setIsEdit={setIsEdit}
         />
       ) : (
-        <span className="line-clamp-1 md:text-lg">{name} </span>
+        <span className="line-clamp-1 md:text-lg">{name}</span>
       )}
 
-      <div className="file-util flex items-center">
+      <div className={clsx("file-util flex items-center", { hidden: isEdit })}>
         <EditIcon onClick={handleEdit} />
         <DeleteIcon onClick={handleDelete} title="Delete file" />
       </div>

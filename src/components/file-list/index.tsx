@@ -12,7 +12,7 @@ const FileList = ({
   setIsInputFile,
 }: FileListPropsType) => {
   return (
-    <div>
+    <ul>
       {files.map((file) => {
         return (
           <File
@@ -25,11 +25,12 @@ const FileList = ({
       })}
 
       <FileInput
+        files={files}
         folderId={folderId}
         isInputFile={isInputFile}
         setIsInputFile={setIsInputFile}
       />
-    </div>
+    </ul>
   );
 };
 

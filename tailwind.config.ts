@@ -19,6 +19,10 @@ const config: Config = {
           lightest: "#C5C5C5",
         },
       },
+      spacing: {
+        "7.5": "1.875rem",
+        "13": "3.25rem",
+      },
     },
   },
   future: {

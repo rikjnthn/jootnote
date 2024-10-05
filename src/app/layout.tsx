@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
 import { roboto } from "@/fonts";
 import "./globals.css";
-import PocketbaseProvider from "@/context/pocketbase-context";
+import { PocketbaseProvider } from "@/context/pocketbase-context";
 
 export const metadata: Metadata = {
   title: "JootNote",
@@ -15,6 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const API_URL = process.env.API_URL;
+
+  headers();
 
   return (
     <html lang="en">

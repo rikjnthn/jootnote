@@ -1,12 +1,6 @@
 import React from "react";
 
-const PlusIcon = ({
-  title,
-  onClick,
-}: {
-  title?: string;
-  onClick?: React.MouseEventHandler;
-}) => {
+const PlusIcon = ({ title, onClick }: PlusIconPropsType) => {
   return (
     <button onClick={onClick} type="button" title={title}>
       <svg
@@ -28,3 +22,8 @@ const PlusIcon = ({
 };
 
 export default PlusIcon;
+
+interface PlusIconPropsType {
+  title?: string;
+  onClick?: React.MouseEventHandler;
+}

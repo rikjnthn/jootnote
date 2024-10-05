@@ -12,7 +12,7 @@ const Input = (
   const isError = typeof error !== "undefined" && error.length > 0;
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="relative flex flex-col gap-2.5">
       {label.length > 0 && (
         <label className="font-medium md:text-xl" htmlFor={id}>
           {label}
@@ -29,7 +29,9 @@ const Input = (
 
       <div
         id={errorId}
-        className={clsx("text-sm text-error", { hidden: !isError })}
+        className={clsx("input-error-message text-sm text-error", {
+          hidden: !isError,
+        })}
       >
         {error}
       </div>
