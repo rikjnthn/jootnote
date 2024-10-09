@@ -33,16 +33,16 @@ const Folder = ({ name, id, files }: FolderPropsType) => {
     e.stopPropagation();
 
     setIsLoadingDelete(true);
+    // if user open a file where the file is placed in the folder that is going to be deleted, navigate to main app
+    if (
+      segments[0] === "note" &&
+      !!files.find((file) => file.id === segments[1])
+    ) {
+      router.push("/");
+    }
+
     try {
       await pb.collection("folders").delete(id);
-
-      // if user open a file where the file is placed in the folder that is going to be deleted, navigate to main app
-      if (
-        segments[0] === "note" &&
-        !!files.find((file) => file.id === segments[1])
-      ) {
-        router.push("/");
-      }
 
       localStorage.removeItem(id);
       setFolders((prev) => prev.filter((folder) => folder.id !== id));
