@@ -12,6 +12,7 @@ import ButtonWithTimer from "@/components/button-with-timer";
 import { TWO_MINUTES_IN_SECONDS } from "@/constant";
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
 
@@ -27,6 +28,7 @@ export default function Page() {
 
   const requestReset = async (data: { email: string }) => {
     setIsError(false);
+    setIsLoading(true);
     try {
       await pb.collection("users").requestPasswordReset(data.email);
 
@@ -38,6 +40,8 @@ export default function Page() {
         setIsError(true);
         setError("email", { message: e.response.data.email });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,7 +80,7 @@ export default function Page() {
             })}
           />
 
-          <SubmitButton name="Request" title="Request" />
+          <SubmitButton name="Request" title="Request" isLoading={isLoading} />
         </form>
       </div>
 
