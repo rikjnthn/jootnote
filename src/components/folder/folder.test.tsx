@@ -15,7 +15,7 @@ jest.mock("next/navigation", () => {
     useRouter: jest.fn().mockReturnValue({
       push: jest.fn(),
     }),
-    useSelectedLayoutSegments: jest.fn(),
+    useSelectedLayoutSegments: jest.fn().mockReturnValue([]),
   };
 });
 
