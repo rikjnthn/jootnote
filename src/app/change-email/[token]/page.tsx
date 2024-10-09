@@ -10,6 +10,7 @@ import SubmitButton from "@/components/submit-button";
 import Input from "@/components/input";
 
 export default function Page({ params }: { params: { token: string } }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isChange, setIsChange] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -23,6 +24,7 @@ export default function Page({ params }: { params: { token: string } }) {
 
   const changeEmail = async (data: { password: string }) => {
     setIsError(false);
+    setIsLoading(true);
     try {
       await pb
         .collection("users")
@@ -35,6 +37,8 @@ export default function Page({ params }: { params: { token: string } }) {
 
         setIsError(true);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,7 +88,7 @@ export default function Page({ params }: { params: { token: string } }) {
               })}
             />
 
-            <SubmitButton name="Change" title="Change" />
+            <SubmitButton name="Change" title="Change" isLoading={isLoading} />
           </form>
         </div>
       </div>

@@ -11,6 +11,7 @@ import SubmitButton from "@/components/submit-button";
 import Input from "@/components/input";
 
 const LoginCard = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setisError] = useState<boolean>(false);
 
   const {
@@ -23,6 +24,7 @@ const LoginCard = () => {
   const { pb } = usePocketbase();
 
   const login = async (data: LoginDataType) => {
+    setIsLoading(true);
     setisError(false);
     try {
       const authData = await pb
@@ -50,6 +52,8 @@ const LoginCard = () => {
 
         setisError(true);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -134,7 +138,7 @@ const LoginCard = () => {
               </Link>
             </div>
 
-            <SubmitButton name="Login" title="Login" />
+            <SubmitButton name="Login" title="Login" isLoading={isLoading} />
           </div>
         </form>
       </div>

@@ -12,6 +12,7 @@ import SubmitButton from "@/components/submit-button";
 import VerifyEmailInformation from "../verify-email-information";
 
 const SignUpCard = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
@@ -27,6 +28,7 @@ const SignUpCard = () => {
 
   const signUp = async (data: SignUpDataType) => {
     setIsError(false);
+    setIsLoading(true);
     try {
       await pb.collection("users").create({
         username: data.username,
@@ -53,6 +55,8 @@ const SignUpCard = () => {
 
         setIsError(true);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -172,7 +176,7 @@ const SignUpCard = () => {
               </Link>
             </div>
 
-            <SubmitButton name="Create" title="Create" />
+            <SubmitButton name="Create" title="Create" isLoading={isLoading} />
           </div>
         </form>
       </div>

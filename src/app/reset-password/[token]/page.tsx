@@ -11,6 +11,7 @@ import Input from "@/components/input";
 import SubmitButton from "@/components/submit-button";
 
 export default function Page({ params }: { params: { token: string } }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [isResetPasswordError, setIsResetPasswordError] =
     useState<boolean>(false);
@@ -27,6 +28,7 @@ export default function Page({ params }: { params: { token: string } }) {
 
   const resetPassword = async (data: ResetPasswordDataType) => {
     setIsResetPasswordError(false);
+    setIsLoading(true);
     try {
       await pb
         .collection("users")
@@ -51,6 +53,8 @@ export default function Page({ params }: { params: { token: string } }) {
         setIsReset(false);
         setIsResetPasswordError(true);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -116,7 +120,7 @@ export default function Page({ params }: { params: { token: string } }) {
             })}
           />
 
-          <SubmitButton name="Reset" title="Reset" />
+          <SubmitButton name="Reset" title="Reset" isLoading={isLoading} />
         </form>
       </div>
 
