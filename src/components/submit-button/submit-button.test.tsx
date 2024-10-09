@@ -5,7 +5,7 @@ describe("SubmitButton Component", () => {
   it("should render correctly when loading", () => {
     render(<SubmitButton name="Submit" title="Submit" isLoading />);
 
-    const button = screen.getByTitle("loading");
+    const button = screen.getByTitle("Loading");
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute("type", "button");
     expect(button).toBeDisabled();
