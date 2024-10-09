@@ -27,6 +27,10 @@ const File = ({ id, name, folderId }: FilePropsType) => {
     e.stopPropagation();
 
     setIsLoadingDelete(true);
+
+    if (isFileOpened) {
+      router.push("/");
+    }
     try {
       await pb.collection("files").delete(id);
 
@@ -48,10 +52,6 @@ const File = ({ id, name, folderId }: FilePropsType) => {
       }
     } finally {
       setIsLoadingDelete(false);
-
-      if (isFileOpened) {
-        router.push("/");
-      }
     }
   };
 

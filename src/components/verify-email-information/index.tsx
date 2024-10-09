@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
+import { ClientResponseError } from "pocketbase";
 
 import { SetStateType } from "@/interface";
 import { usePocketbase } from "@/context/pocketbase-context";
 import ButtonWithTimer from "../button-with-timer";
 import { TWO_MINUTES_IN_SECONDS } from "@/constant";
-import { ClientResponseError } from "pocketbase";
 
 const VerifyEmailInformation = ({
   email,
